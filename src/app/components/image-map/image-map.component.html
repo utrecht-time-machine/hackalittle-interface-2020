@@ -9,7 +9,7 @@
         "
       />
       <svg>
-        <a *ngFor="let mapItem of imageMapItems" [attr.href]="mapItem.objectNr">
+        <a *ngFor="let mapItem of imageMapItems">
           <polygon [attr.points]="mapItem.coords" />
         </a>
       </svg>

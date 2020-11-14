@@ -23,4 +23,5 @@ export const environment = {
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>`,
   },
   ontologyIRI: 'http://documentatie.org/id/kaartsoort/',
+  maxAmountMarkers: 500,
 };

@@ -3,6 +3,8 @@ import { environment } from '../../environments/environment';
 import * as mapboxgl from 'mapbox-gl';
 import { Marker, MarkerService } from './marker.service';
 import { Feature, FeatureCollection } from 'geojson';
+import { ModalController } from '@ionic/angular';
+import { ContentViewer } from '../components/content-viewer/content-viewer.component';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,10 @@ import { Feature, FeatureCollection } from 'geojson';
 export class MapService {
   map: mapboxgl.Map;
 
-  constructor(private markerService: MarkerService) {}
+  constructor(
+    private markerService: MarkerService,
+    private modalController: ModalController
+  ) {}
 
   async initializeMap(id: string) {
     (mapboxgl as any).accessToken = environment.mapbox.accessToken;
@@ -25,18 +30,7 @@ export class MapService {
 
     this.map.on('styleimagemissing', async (e) => {
       const markerId = e.id;
-
-      let imageUrl = this.markerService.retrieveMarkerImageById(markerId);
-
-      await new Promise((resolve, rejects) => {
-        this.map.loadImage(environment.proxyUrl + imageUrl, (error, image) => {
-          if (this.map.hasImage(markerId)) {
-            return resolve('Image already loaded');
-          }
-          this.map.addImage(markerId, image);
-          resolve(image);
-        });
-      });
+      this.addImageForMarkerId(markerId);
     });
 
     this.map.on('load', async () => {
@@ -46,9 +40,28 @@ export class MapService {
     });
   }
 
+  private async addImageForMarkerId(markerId) {
+    let imageUrl = this.markerService.retrieveMarkerImageById(markerId);
+
+    return await new Promise((resolve, rejects) => {
+      this.map.loadImage(environment.proxyUrl + imageUrl, (error, image) => {
+        if (error) {
+          console.warn(error);
+          return;
+        }
+
+        if (this.map.hasImage(markerId)) {
+          return resolve('Image already loaded');
+        }
+        this.map.addImage(markerId, image);
+        resolve(image);
+      });
+    });
+  }
+
   private async addMarkers() {
     let markers: Marker[] = await this.markerService.retrieveMarkers();
-    // markers = markers.splice(0, 50);
+    markers = markers.splice(0, environment.maxAmountMarkers);
 
     const features: Feature[] = markers.map((marker) => {
       return {
@@ -129,6 +142,25 @@ export class MapService {
         'text-size': 12,
         'text-anchor': 'top',
       },
+    });
+
+    this.map.on('click', 'icons', async (e) => {
+      console.log(e.features);
+      const id = e.features[0].properties.id;
+      if (!id) {
+        alert("No ID available");
+        return;
+      }
+
+      const modal = await this.modalController.create({
+        component: ContentViewer,
+        cssClass: 'full-screen-modal',
+        componentProps: {
+          id: id,
+          modalController: this.modalController,
+        },
+      });
+      await modal.present();
     });
   }
 }
