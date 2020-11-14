@@ -8,6 +8,7 @@ export interface Marker {
   lngLat: LngLatLike;
   label: string;
   id: string;
+  image: string;
 }
 
 export type MarkerSparqlRes = {
@@ -15,6 +16,7 @@ export type MarkerSparqlRes = {
   lat: string;
   long: string;
   label: string;
+  fileURL: string[];
 }[];
 
 @Injectable({
@@ -28,19 +30,25 @@ export class MarkerService {
   }
 
   async initMarkers() {
+    console.log('INIT MARKERS');
     const markers = await this.retrieveMarkers();
     this.markers.next(markers);
     console.log(markers);
   }
 
   async retrieveMarkers(): Promise<Marker[]> {
+    console.log('Running markers query');
     const query = `
-      SELECT ?sub ?lat ?long ?label WHERE {
+      SELECT ?sub ?lat ?long ?label ?fileURL WHERE {
         ?sub dct:spatial ?obj .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long .
         ?sub <http://purl.org/dc/terms/subject> ?subject .
-        ?subject <http://www.w3.org/2000/01/rdf-schema#label> ?label.
+        ?subject <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+        
+        OPTIONAL { ?subject <http://documentatie.org/def/hasPage> ?pages .
+                   ?pages <http://documentatie.org/def/fileURL> ?fileURL }
+        
       } LIMIT 10000`;
 
     const rawMarkers: MarkerSparqlRes = await this.sparql.query(
@@ -51,6 +59,10 @@ export class MarkerService {
     console.log(rawMarkers);
 
     return rawMarkers.map((rawItem) => {
+      const myImage = rawItem.fileURL.find(
+        (url) => url.endsWith('.jpg') || url.endsWith('.jpeg')
+      );
+
       return {
         id: rawItem.sub,
         lngLat: {
@@ -58,6 +70,7 @@ export class MarkerService {
           lat: parseFloat(rawItem.lat),
         },
         label: rawItem.label,
+        image: myImage,
       };
     });
   }
