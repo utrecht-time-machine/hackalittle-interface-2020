@@ -1,10 +1,12 @@
-<ion-content [fullscreen]="true" class="ion-no-margin ion-no-padding">
-    <div class="screencap-container" [@showingInfoAnimation]="showingMoreInfo ? 'panoramaShowingInfo' : 'panoramaNotShowingInfo'">
+<ion-content [fullscreen]="true" class="ion-no-margin ion-no-padding"
+             [ngStyle]="{'overflow': showingMoreInfo ? 'initial' : '--hidden'}">
+    <div class="screencap-container"
+         [@showingInfoAnimation]="showingMoreInfo ? 'panoramaShowingInfo' : 'panoramaNotShowingInfo'">
         <img src="/assets/img/panorama-screencap.png" alt="Panorama Screencap" class="panorama-screencap">
     </div>
 
     <div class="ion-padding footer-panel" [@showingInfoAnimation]="showingMoreInfo ? 'showingInfo' : 'notShowingInfo'">
-        <div class="ion-padding footer-top-info-container">
+        <div class="ion-padding rounded-border white-background">
             <h1 class="ion-no-margin">Oudegracht 187</h1>
             <p>
                 Current use: Winkel Bebop (furniture)
@@ -32,5 +34,67 @@
             </ion-button>
         </div>
 
+        <div class="ion-padding white-background rounded-border ion-margin-top" *ngIf="showingMoreInfo">
+            <b class="header">
+                Servetstraat 12</b>&nbsp;&nbsp;&nbsp;<b>te Utrecht,<br>waarin tevens het adres Domplein 20</b>
+            <br>
+            <br>Het hoekpand van Domplein en Servetstraat, uit 1871, heeft twee
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=bouwlaag">bouwlagen</a>
+            onder een <a target="_top" href="/uds4/zoekpagina3.asp?search=kap met plat">kap met plat</a>,
+            met <a target="_top" href="/uds4/zoekpagina3.asp?search=plat dak met schild">schilden</a>
+            aan de voorzijde, rechts en links.
+            De <a target="_top" href="/uds4/zoekpagina3.asp?search=voorgevel">voorgevel</a>
+            ligt aan de Servetstraat en is drie
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=vensteras">vensterassen</a>
+            breed, met de ingang in het midden tussen brede
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=getoogd venster">getoogde vensters</a>.
+            De begane grond is wit
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=pleisterwerk">gepleisterd</a>,
+            de
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=muuropening">muuropeningen</a>
+            zijn voorzien van een
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=omlijsting">omlijsting</a>.
+            Een <a target="_top" href="/uds4/zoekpagina3.asp?search=hoofdgestel">hoofdgestel</a>,
+            in plaats van een
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=cordonlijst">cordonlijst</a>,
+            sluit dit deel af.
+            Boven de omgepleisterde verdieping staat de zware
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=kroonlijst">kroonlijst</a>
+            op heel veel, dicht bij elkaar geplaatste
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=gootklos">gootklossen</a>.
+            Al deze elementen horen bij het
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=eclecticisme">eclecticisme</a>.<br>
+            De gevel aan het Domplein erg heel merkwaardig, je zou haast denken dat het er drie zijn door de verschillen
+            tussen de drie delen, die ieder op de verdieping twee vensters hebben.
+            Het linker deel, uitgevoerd als
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=risaliet">risaliet</a>,
+            heeft dezelfde opbouw als de voorgevel.
+            Het middelste deel had oorspronkelijk twee vensterassen en was helemaal ongepleisterd, met een cordonlijst
+            tussen de bouwlagen.
+            De begane grond is nu gepleisterd en de vensters zijn vervangen door een imitatie van het venster links
+            ervan.
+            Het rechterdeel is helemaal
+            <a target="_top" href="/uds4/zoekpagina3.asp?search=pleisterwerk met schijnvoegen">gepleisterd met
+                schijnvoegen</a>
+            en heeft twee gekoppelde ingangen, ook de verdiepingsvensters zijn hier gekoppeld. De
+            kroonlijst van de twee rechter delen is een vereenvoudigde uitvoering van die van het
+            linker deel, gootklossen ontbreken hier.<br>
+            <div style="font-size:12px"><br>
+                Samen met de buurpanden aan het Domplein was dit huis lange tijd in gebruik als
+                garage Vredendaal, het
+                middelste deel van de gevel had toen garagedeuren. Oorspronkelijk was het pand
+                café met bovenwoning en nu weer.<br>
+                Anders dan de bebouwing ten noorden van dit perceel staat Servetstraat 12 niet op de plaats van
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=Utrecht - Domplein 13 e.o. - Lofen">paleis Lofen</a>.
+                De hele strook tot aan de gracht behoorde niet tot de
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=Utrecht - Domplein e.o. - immuniteit van de Dom">immuniteit
+                    van de Dom</a>,
+                noch tot
+                <a target="_top"
+                   href="/uds4/zoekpagina3.asp?search=Utrecht - Domplein e.o. - immuniteit van Oudmunster">die van
+                    Oudmunster
+                </a>.
+            </div>
+        </div>
     </div>
 </ion-content>

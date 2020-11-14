@@ -1,17 +1,11 @@
-import { Component } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-  // ...
-} from '@angular/animations';
+import {Component, ViewEncapsulation} from '@angular/core';
+import {animate, state, style, transition, trigger,} from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('showingInfoAnimation', [
       // ...
