@@ -1,20 +1,36 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="ion-no-margin ion-no-padding">
+    <div class="screencap-container" [@showingInfoAnimation]="showingMoreInfo ? 'panoramaShowingInfo' : 'panoramaNotShowingInfo'">
+        <img src="/assets/img/panorama-screencap.png" alt="Panorama Screencap" class="panorama-screencap">
+    </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <div class="ion-padding footer-panel" [@showingInfoAnimation]="showingMoreInfo ? 'showingInfo' : 'notShowingInfo'">
+        <div class="ion-padding footer-top-info-container">
+            <h1 class="ion-no-margin">Oudegracht 187</h1>
+            <p>
+                Current use: Winkel Bebop (furniture)
+                <br/>
+                Creation date: 1590
+            </p>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+            <div class="images">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="building-image">
+                        </ion-col>
+                        <ion-col>
+                            <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="building-image">
+                        </ion-col>
+                        <ion-col>
+                            <img src="https://via.placeholder.com/150" alt="Placeholder Image" class="building-image">
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+            <ion-button (click)="showMoreInfo()" fill="clear">
+                Read {{showingMoreInfo ? 'less' : 'more'}}
+            </ion-button>
+        </div>
+
+    </div>
 </ion-content>
