@@ -11,7 +11,7 @@ export const environment = {
     center: [5.1196157, 52.0891439],
     zoomLevel: 13,
   },
-  proxyUrl: 'https://proxy-simon.herokuapp.com/',
+  proxyUrl: '',
 
   sparqlEndpoints: {
     uds:
