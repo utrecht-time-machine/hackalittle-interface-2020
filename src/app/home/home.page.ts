@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {animate, state, style, transition, trigger,} from '@angular/animations';
 
 @Component({
@@ -35,26 +35,15 @@ import {animate, state, style, transition, trigger,} from '@angular/animations';
             transition('panoramaHidden => panoramaShown', [
                 animate('0.25s')
             ]),
-        ]),
-        // trigger('beginkaartExpansionAnimation', [
-        //     state('beginkaartInfoExpanded', style({
-        //         height: '100%'
-        //     })),
-        //     state('beginkaartInfoCollapsed', style({
-        //         height: '150px'
-        //     })),
-        //     transition('beginkaartInfoExpanded => beginkaartInfoCollapsed', [
-        //         animate('0.25s')
-        //     ]),
-        //     transition('beginkaartInfoCollapsed => beginkaartInfoExpanded', [
-        //         animate('0.25s')
-        //     ]),
-        // ])
+        ])
     ]
 })
 export class HomePage {
+    @ViewChild('beginkaart') beginkaartElRef: ElementRef;
+
     moreInfoShown = false;
     beginkaartExpanded = false;
+    beginkaartCollapsedHeight = 100; //px
 
     constructor() {
     }
@@ -65,5 +54,45 @@ export class HomePage {
 
     onToggleBeginkaart() {
         this.beginkaartExpanded = !this.beginkaartExpanded;
+
+        if (!this.beginkaartExpanded) {
+            this.collapseSection(this.beginkaartElRef.nativeElement);
+        } else {
+            this.expandSection(this.beginkaartElRef.nativeElement);
+        }
+    }
+
+    collapseSection(element) {
+        const sectionHeight = element.scrollHeight;
+
+        const elementTransition = element.style.transition;
+        element.style.transition = '';
+
+        requestAnimationFrame(() => {
+            element.style.height = sectionHeight + 'px';
+            element.style.transition = elementTransition;
+
+            requestAnimationFrame(() => {
+                element.style.height = this.beginkaartCollapsedHeight + 'px';
+                element.style.overflow = 'hidden';
+            });
+        });
+
+        element.setAttribute('data-collapsed', 'true');
+    }
+
+    expandSection(element) {
+        const sectionHeight = element.scrollHeight;
+
+        element.style.height = sectionHeight + 'px';
+
+        element.addEventListener('transitionend', function (e) {
+            element.removeEventListener('transitionend', arguments.callee);
+
+            element.style.height = null;
+            element.style.overflow = 'auto';
+        });
+
+        element.setAttribute('data-collapsed', 'false');
     }
 }

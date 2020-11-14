@@ -13,10 +13,9 @@ ion-content {
 }
 
 .beginkaart-text-content {
-  &.collapsed {
-    height: 150px;
-    overflow: hidden;
-  }
+  height: 100px;
+  transition:height 0.3s ease-out;
+  overflow: hidden;
 
   position: relative;
 }
