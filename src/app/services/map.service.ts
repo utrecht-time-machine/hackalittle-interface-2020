@@ -55,28 +55,8 @@ export class MapService {
   }
 
   private async addMarkersAsGeoJSON() {
-    const markers: Marker[] = await this.markerService.retrieveMarkers();
-
-    // const promises: Promise<any>[] = [];
-    //
-    // for (const marker of markers) {
-    //   if (!marker.image) {
-    //     continue;
-    //   }
-    //
-    //   const loadImagePromise = new Promise((resolve, rejects) => {
-    //     this.map.loadImage(
-    //       environment.proxyUrl + marker.image,
-    //       (error, image) => {
-    //         this.map.addImage(marker.id, image);
-    //         resolve(image);
-    //       }
-    //     );
-    //   });
-    //   promises.push(loadImagePromise);
-    // }
-    //
-    // const loadedImages = Promise.all(promises);
+    let markers: Marker[] = await this.markerService.retrieveMarkers();
+    markers = markers.splice(0, 50);
 
     const features: Feature[] = markers.map((marker) => {
       return {

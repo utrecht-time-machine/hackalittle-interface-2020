@@ -41,9 +41,8 @@ export class MarkerService {
   }
 
   async retrieveMarkers(): Promise<Marker[]> {
-    // console.log('Running markers query');
     const queryUrl = `
-      SELECT ?sub ?lat ?long ?label ?fileURL WHERE {
+      SELECT ?sub ?lat ?long ?label ?fileURL ?kaartsoort WHERE {
         ?sub dct:spatial ?obj .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long .
@@ -51,7 +50,8 @@ export class MarkerService {
         ?subject <http://www.w3.org/2000/01/rdf-schema#label> ?label .
         
         OPTIONAL { ?subject <http://documentatie.org/def/hasPage> ?pages .
-                   ?pages <http://documentatie.org/def/fileURL> ?fileURL }
+                   ?pages <http://documentatie.org/def/fileURL> ?fileURL .
+                    ?pages <http://documentatie.org/def/kaartsoort> ?kaartsoort }
         
       } LIMIT 10000`;
 
