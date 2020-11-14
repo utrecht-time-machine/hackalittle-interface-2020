@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ContentViewer } from './content-viewer/content-viewer.component';
+import { ContentViewer } from './components/content-viewer/content-viewer.component';
 import { ImageMapComponent } from './components/image-map/image-map.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { EmbeddedComponent } from './components/embedded/embedded.component';

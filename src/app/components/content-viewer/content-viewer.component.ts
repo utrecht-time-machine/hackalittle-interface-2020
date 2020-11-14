@@ -1,8 +1,8 @@
 import {
-  Component,
-  ElementRef,
-  ViewChild,
-  ViewEncapsulation,
+    Component,
+    ElementRef, Input,
+    ViewChild,
+    ViewEncapsulation,
 } from '@angular/core';
 import {
   animate,
@@ -11,7 +11,8 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { UserInterfaceService } from '../services/user-interface.service';
+import { UserInterfaceService } from '../../services/user-interface.service';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-content-viewer',
@@ -54,5 +55,8 @@ import { UserInterfaceService } from '../services/user-interface.service';
   ],
 })
 export class ContentViewer {
-  constructor(public ui: UserInterfaceService) {}
+    @Input() modalController: ModalController;
+    @Input() id: string;
+
+    constructor(public ui: UserInterfaceService) {}
 }
