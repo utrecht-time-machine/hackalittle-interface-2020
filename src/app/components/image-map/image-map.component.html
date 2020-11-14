@@ -8,11 +8,14 @@
           'http://www.documentatie.org/data/ZoekplaatDb/ZplaatUitzicht/ZplaatUitzicht-HUA.catnr.84347/ZplaatUitzicht-1870.catnr.84347.jpg'
         "
       />
-      <svg>
-        <a *ngFor="let mapItem of imageMapItems">
-          <polygon [attr.points]="mapItem.coords" />
-        </a>
-      </svg>
+      <div class="svg-wrapper">
+        <svg>
+          <a *ngFor="let mapItem of imageMapItems">
+            <polygon [attr.points]="mapItem.coords" />
+          </a>
+        </svg>
+      </div>
+
     </div>
   </pinch-zoom>
 </div>
