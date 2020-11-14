@@ -52,5 +52,8 @@
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
   },
+  "prettier": {
+    "singleQuote": true
+  },
   "description": "An Ionic project"
 }
