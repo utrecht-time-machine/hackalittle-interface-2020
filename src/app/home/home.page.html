@@ -2,7 +2,7 @@
              [ngStyle]="{'overflow': moreInfoShown ? 'initial' : '--hidden'}">
     <div class="panorama-screencap-container"
          [@showingInfoAnimation]="moreInfoShown ? 'panoramaHidden' : 'panoramaShown'">
-        <img src="/assets/img/panorama-screencap.png" alt="Panorama Screencap" class="panorama-screencap">
+      <app-image-map></app-image-map>
     </div>
 
     <div class="ion-padding footer-panel"
