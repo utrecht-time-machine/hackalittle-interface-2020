@@ -1,5 +1,15 @@
-<ion-content [fullscreen]="true" class="ion-no-margin ion-no-padding"
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="map"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Oudegracht</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-margin ion-no-padding"
              [ngStyle]="{'overflow': ui.isMoreInfoShown() ? 'initial' : '--hidden'}">
+
     <div class="panorama-screencap-container"
          [@showingInfoAnimation]="ui.isMoreInfoShown() ? 'panoramaHidden' : 'panoramaShown'">
         <app-image-map></app-image-map>

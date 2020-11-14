@@ -33,13 +33,20 @@
             ],
             "styles": [
               {
+                "input": "node_modules/mapbox-gl/dist/mapbox-gl.css"
+              },
+              {
                 "input": "src/theme/variables.scss"
               },
               {
                 "input": "src/global.scss"
               }
             ],
-            "scripts": []
+            "scripts": [
+              {
+                "input": "node_modules/mapbox-gl/dist/mapbox-gl.js"
+              }
+            ]
           },
           "configurations": {
             "production": {
