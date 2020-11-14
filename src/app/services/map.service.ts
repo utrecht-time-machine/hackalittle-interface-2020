@@ -144,6 +144,7 @@ export class MapService {
         cssClass: 'full-screen-modal',
         componentProps: {
           id: 'unknown',
+          modalController: this.modalController,
         },
       });
       await modal.present();
