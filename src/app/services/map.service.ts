@@ -3,6 +3,8 @@ import { environment } from '../../environments/environment';
 import * as mapboxgl from 'mapbox-gl';
 import { Marker, MarkerService } from './marker.service';
 import { Feature, FeatureCollection } from 'geojson';
+import { ModalController } from '@ionic/angular';
+import { HomePage } from '../home/home.page';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,10 @@ import { Feature, FeatureCollection } from 'geojson';
 export class MapService {
   map: mapboxgl.Map;
 
-  constructor(private markerService: MarkerService) {}
+  constructor(
+    private markerService: MarkerService,
+    private modalController: ModalController
+  ) {}
 
   async initializeMap(id: string) {
     (mapboxgl as any).accessToken = environment.mapbox.accessToken;
@@ -137,32 +142,18 @@ export class MapService {
         'text-anchor': 'top',
       },
     });
-  }
 
-  private async addMarkers() {
-    const markers = await this.markerService.retrieveMarkers();
+    this.map.on('click', 'icons', async (e) => {
+      console.log(e.features);
 
-    for (const marker of markers.splice(0, 150)) {
-      if (!marker.image) {
-        continue;
-      }
-      const el = document.createElement('div');
-      el.className = 'marker';
-      el.style.backgroundImage = `url(${
-        !marker.image
-          ? 'https://via.placeholder.com/150'
-          : environment.proxyUrl + marker.image
-      })`;
-
-      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-        `<strong>${marker.label}</strong>` +
-          '<br/><a href="/home">Read more</a>'
-      );
-
-      new mapboxgl.Marker(el)
-        .setLngLat(marker.lngLat)
-        .setPopup(popup)
-        .addTo(this.map);
-    }
+      const modal = await this.modalController.create({
+        component: HomePage,
+        cssClass: 'full-screen-modal',
+        componentProps: {
+          id: 'unknown',
+        },
+      });
+      await modal.present();
+    });
   }
 }
