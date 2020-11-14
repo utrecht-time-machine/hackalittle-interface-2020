@@ -48,7 +48,7 @@ export class MapService {
 
   private async addMarkers() {
     let markers: Marker[] = await this.markerService.retrieveMarkers();
-    markers = markers.splice(0, 50);
+    // markers = markers.splice(0, 50);
 
     const features: Feature[] = markers.map((marker) => {
       return {
@@ -73,7 +73,7 @@ export class MapService {
       type: 'geojson',
       data: geojsonData,
       cluster: true,
-      clusterMaxZoom: 15,
+      clusterMaxZoom: 16,
       clusterRadius: 50,
     });
 
@@ -82,7 +82,7 @@ export class MapService {
       type: 'circle',
       source: 'points',
       filter: ['has', 'point_count'],
-      // maxzoom: 15,
+      // maxzoom: 16,
 
       paint: {
         'circle-color': [
@@ -106,7 +106,7 @@ export class MapService {
       id: 'cluster-count',
       type: 'symbol',
       source: 'points',
-      maxzoom: 15,
+      maxzoom: 16,
       filter: ['has', 'point_count'],
       layout: {
         'text-field': '{point_count_abbreviated}',
