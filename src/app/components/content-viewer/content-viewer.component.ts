@@ -11,7 +11,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { UserInterfaceService } from '../services/user-interface.service';
+import { UserInterfaceService } from '../../services/user-interface.service';
 
 @Component({
   selector: 'app-content-viewer',

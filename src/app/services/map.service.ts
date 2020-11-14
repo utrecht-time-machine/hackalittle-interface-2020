@@ -4,7 +4,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { Marker, MarkerService } from './marker.service';
 import { Feature, FeatureCollection } from 'geojson';
 import { ModalController } from '@ionic/angular';
-import { ContentViewer } from '../content-viewer/content-viewer.component';
+import { ContentViewer } from '../components/content-viewer/content-viewer.component';
 
 @Injectable({
   providedIn: 'root',
