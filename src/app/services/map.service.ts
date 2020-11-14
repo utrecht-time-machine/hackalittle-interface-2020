@@ -27,9 +27,6 @@ export class MapService {
       const markerId = e.id;
 
       let imageUrl = this.markerService.retrieveMarkerImageById(markerId);
-      if (!imageUrl) {
-        imageUrl = 'https://via.placeholder.com/300';
-      }
 
       await new Promise((resolve, rejects) => {
         this.map.loadImage(environment.proxyUrl + imageUrl, (error, image) => {
@@ -45,16 +42,11 @@ export class MapService {
     this.map.on('load', async () => {
       this.map.resize();
 
-      this.addMarkersAsGeoJSON();
-
-      // this.addMarkers();
-      // this.markerService.markers.subscribe(async (markers) => {
-      //     await this.addMarkers(markers)
-      // });
+      this.addMarkers();
     });
   }
 
-  private async addMarkersAsGeoJSON() {
+  private async addMarkers() {
     let markers: Marker[] = await this.markerService.retrieveMarkers();
     markers = markers.splice(0, 50);
 
@@ -63,7 +55,7 @@ export class MapService {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [marker.lngLat.lng, marker.lngLat.lat],
+          coordinates: [(marker.lngLat as any).lng, (marker.lngLat as any).lat],
         },
         properties: {
           title: marker.label,
@@ -132,37 +124,11 @@ export class MapService {
         'icon-image': '{id}',
         'icon-size': 0.15,
         'text-field': ['get', 'title'],
-        'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-        'text-offset': [0, 1.25],
+        'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+        'text-offset': [0, 4.75],
+        'text-size': 12,
         'text-anchor': 'top',
       },
     });
-  }
-
-  private async addMarkers() {
-    const markers = await this.markerService.retrieveMarkers();
-
-    for (const marker of markers.splice(0, 150)) {
-      if (!marker.image) {
-        continue;
-      }
-      const el = document.createElement('div');
-      el.className = 'marker';
-      el.style.backgroundImage = `url(${
-        !marker.image
-          ? 'https://via.placeholder.com/150'
-          : environment.proxyUrl + marker.image
-      })`;
-
-      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-        `<strong>${marker.label}</strong>` +
-          '<br/><a href="/home">Read more</a>'
-      );
-
-      new mapboxgl.Marker(el)
-        .setLngLat(marker.lngLat)
-        .setPopup(popup)
-        .addTo(this.map);
-    }
   }
 }

@@ -5,10 +5,15 @@ import { BehaviorSubject } from 'rxjs';
 import { LngLatLike, LngLat } from 'mapbox-gl';
 
 export interface Marker {
-  lngLat: LngLat;
+  lngLat: LngLatLike;
   label: string;
   id: string;
-  image: string;
+  images: MarkerImage[];
+}
+
+export interface MarkerImage {
+  url: string;
+  kaartsoort: string;
 }
 
 export type MarkerSparqlRes = {
@@ -17,6 +22,7 @@ export type MarkerSparqlRes = {
   long: string;
   label: string;
   fileURL: string;
+  kaartsoort: string;
 }[];
 
 @Injectable({
@@ -34,73 +40,72 @@ export class MarkerService {
     this.markers.next(markers);
   }
 
-  retrieveMarkerImageById(markerId: string) {
-    return this.markers.getValue().find((marker) => {
-      return marker.id === markerId;
-    }).image;
+  retrieveMarkerImageById(markerId: string): string {
+    const markerImages: MarkerImage[] = this.markers
+      .getValue()
+      .find((marker) => {
+        return marker.id === markerId;
+      }).images;
+    for (const markerImage of markerImages) {
+      if (markerImage.kaartsoort === `${environment.ontologyIRI}kaart_6`) {
+        return markerImage.url;
+      }
+    }
+
+    return environment.placeholderMarkerImage;
   }
 
   async retrieveMarkers(): Promise<Marker[]> {
-    const queryUrl = `
-      SELECT ?sub ?lat ?long ?label ?fileURL ?kaartsoort WHERE {
+    const markersQuery = `
+        SELECT ?sub ?lat ?long ?label ?fileURL ?kaartsoort WHERE {
         ?sub dct:spatial ?obj .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long .
         ?sub <http://purl.org/dc/terms/subject> ?subject .
         ?subject <http://www.w3.org/2000/01/rdf-schema#label> ?label .
-        
-        OPTIONAL { ?subject <http://documentatie.org/def/hasPage> ?pages .
-                   ?pages <http://documentatie.org/def/fileURL> ?fileURL .
-                    ?pages <http://documentatie.org/def/kaartsoort> ?kaartsoort }
-        
-      } LIMIT 10000`;
 
-    const rawMarkersUrls: MarkerSparqlRes = await this.sparql.query(
-      environment.sparqlEndpoints.uds,
-      `${environment.sparqlPrefixes.hua} ${queryUrl}`
-    );
-
-    const query = `
-      SELECT ?sub ?lat ?long ?label ?fileURL WHERE {
-        ?sub dct:spatial ?obj .
-        ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
-        ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long .
-        ?sub <http://purl.org/dc/terms/subject> ?subject .
-        ?subject <http://www.w3.org/2000/01/rdf-schema#label> ?label .
-      } LIMIT 10000`;
-
+        OPTIONAL {?subject <http://documentatie.org/def/hasPage> ?pages .
+        ?pages <http://documentatie.org/def/fileURL> ?fileURL .
+        ?pages <http://documentatie.org/def/kaartsoort> ?kaartsoort }
+        } LIMIT 10000`;
     const rawMarkers: MarkerSparqlRes = await this.sparql.query(
       environment.sparqlEndpoints.uds,
-      `${environment.sparqlPrefixes.hua} ${query}`
+
+      `${environment.sparqlPrefixes.hua} ${markersQuery}`
     );
 
-    // console.log(rawMarkers);
-
-    // Remove duplicate items from rawMarkers
-
-    return rawMarkers.map((rawItem) => {
-      const itemWithMyImage = rawMarkersUrls.find((itemUrlCheck) => {
-        const url = itemUrlCheck.fileURL;
-        return (
-          itemUrlCheck.sub === rawItem.sub &&
-          (url.endsWith('.jpg') || url.endsWith('.jpeg'))
-        );
-      });
-
-      const myImage = itemWithMyImage?.fileURL || null;
-      // rawItem.fileURL.find(
-      //   (url) => url.endsWith('.jpg') || url.endsWith('.jpeg')
-      // );
-
-      return {
-        id: rawItem.sub,
-        lngLat: {
-          lng: parseFloat(rawItem.long),
-          lat: parseFloat(rawItem.lat),
-        },
-        label: rawItem.label,
-        image: myImage,
+    const markers: { [markerId: string]: Marker } = {};
+    for (const rawMarker of rawMarkers) {
+      const markerId = rawMarker.sub;
+      const isValidMarkerImageUrl =
+        rawMarker.fileURL.endsWith('.jpg') ||
+        rawMarker.fileURL.endsWith('.png') ||
+        rawMarker.fileURL.endsWith('.jpeg');
+      const markerImageUrl = isValidMarkerImageUrl
+        ? rawMarker.fileURL
+        : environment.placeholderMarkerImage;
+      const markerImage = {
+        url: markerImageUrl,
+        kaartsoort: rawMarker.kaartsoort,
       };
-    });
+      const existingMarker = markers[markerId];
+
+      if (!existingMarker) {
+        const marker: Marker = {
+          lngLat: {
+            lng: parseFloat(rawMarker.long),
+            lat: parseFloat(rawMarker.lat),
+          },
+          label: rawMarker.label,
+          id: rawMarker.sub,
+          images: [markerImage],
+        };
+        markers[markerId] = marker;
+      } else {
+        existingMarker.images.push(markerImage);
+      }
+    }
+
+    return Object.values(markers);
   }
 }
