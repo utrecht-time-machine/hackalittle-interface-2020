@@ -11,8 +11,9 @@ export const environment = {
     center: [5.1196157, 52.0891439],
     zoomLevel: 13,
   },
-  proxyUrl: '',
-
+  // proxyUrl: '',
+  proxyUrl: 'https://proxy-simon.herokuapp.com/',
+  corsProxyUrl: 'http://localhost:8080/',
   sparqlEndpoints: {
     uds:
       'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/UDS/services/UDS/sparql',

@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { SparqlService } from './sparql.service';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import { LngLatLike } from 'mapbox-gl';
+import { LngLatLike, LngLat } from 'mapbox-gl';
 
 export interface Marker {
-  lngLat: LngLatLike;
+  lngLat: LngLat;
   label: string;
   id: string;
   image: string;
@@ -30,9 +30,14 @@ export class MarkerService {
   }
 
   async initMarkers() {
-    console.log('INIT MARKERS');
     const markers = await this.retrieveMarkers();
     this.markers.next(markers);
+  }
+
+  retrieveMarkerImageById(markerId: string) {
+    return this.markers.getValue().find((marker) => {
+      return marker.id === markerId;
+    }).image;
   }
 
   async retrieveMarkers(): Promise<Marker[]> {
@@ -65,20 +70,22 @@ export class MarkerService {
       } LIMIT 10000`;
 
     const rawMarkers: MarkerSparqlRes = await this.sparql.query(
-        environment.sparqlEndpoints.uds,
-        `${environment.sparqlPrefixes.hua} ${query}`
+      environment.sparqlEndpoints.uds,
+      `${environment.sparqlPrefixes.hua} ${query}`
     );
 
     // console.log(rawMarkers);
 
     // Remove duplicate items from rawMarkers
 
-
     return rawMarkers.map((rawItem) => {
       const itemWithMyImage = rawMarkersUrls.find((itemUrlCheck) => {
         const url = itemUrlCheck.fileURL;
-        return itemUrlCheck.sub === rawItem.sub && (url.endsWith('.jpg') || url.endsWith('.jpeg'));
-      })
+        return (
+          itemUrlCheck.sub === rawItem.sub &&
+          (url.endsWith('.jpg') || url.endsWith('.jpeg'))
+        );
+      });
 
       const myImage = itemWithMyImage?.fileURL || null;
       // rawItem.fileURL.find(
