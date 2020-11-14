@@ -16,7 +16,7 @@ export type MarkerSparqlRes = {
   lat: string;
   long: string;
   label: string;
-  fileURL: string[];
+  fileURL: string;
 }[];
 
 @Injectable({
@@ -37,8 +37,8 @@ export class MarkerService {
   }
 
   async retrieveMarkers(): Promise<Marker[]> {
-    console.log('Running markers query');
-    const query = `
+    // console.log('Running markers query');
+    const queryUrl = `
       SELECT ?sub ?lat ?long ?label ?fileURL WHERE {
         ?sub dct:spatial ?obj .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
@@ -51,17 +51,40 @@ export class MarkerService {
         
       } LIMIT 10000`;
 
-    const rawMarkers: MarkerSparqlRes = await this.sparql.query(
+    const rawMarkersUrls: MarkerSparqlRes = await this.sparql.query(
       environment.sparqlEndpoints.uds,
-      `${environment.sparqlPrefixes.hua} ${query}`
+      `${environment.sparqlPrefixes.hua} ${queryUrl}`
     );
 
-    console.log(rawMarkers);
+    const query = `
+      SELECT ?sub ?lat ?long ?label ?fileURL WHERE {
+        ?sub dct:spatial ?obj .
+        ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
+        ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long .
+        ?sub <http://purl.org/dc/terms/subject> ?subject .
+        ?subject <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+      } LIMIT 10000`;
+
+    const rawMarkers: MarkerSparqlRes = await this.sparql.query(
+        environment.sparqlEndpoints.uds,
+        `${environment.sparqlPrefixes.hua} ${query}`
+    );
+
+    // console.log(rawMarkers);
+
+    // Remove duplicate items from rawMarkers
+
 
     return rawMarkers.map((rawItem) => {
-      const myImage = rawItem.fileURL.find(
-        (url) => url.endsWith('.jpg') || url.endsWith('.jpeg')
-      );
+      const itemWithMyImage = rawMarkersUrls.find((itemUrlCheck) => {
+        const url = itemUrlCheck.fileURL;
+        return itemUrlCheck.sub === rawItem.sub && (url.endsWith('.jpg') || url.endsWith('.jpeg'));
+      })
+
+      const myImage = itemWithMyImage?.fileURL || null;
+      // rawItem.fileURL.find(
+      //   (url) => url.endsWith('.jpg') || url.endsWith('.jpeg')
+      // );
 
       return {
         id: rawItem.sub,

@@ -92,10 +92,13 @@ export class MapService {
     private async addMarkers() {
         const markers = await this.markerService.retrieveMarkers();
 
-        for (const marker of markers) {
+        for (const marker of markers.splice(0, 150)) {
+            if(!marker.image) {
+                continue;
+            }
             const el = document.createElement('div');
             el.className = 'marker';
-            el.style.backgroundImage = `url(https://via.placeholder.com/150)`;
+            el.style.backgroundImage = `url(${!marker.image ? 'https://via.placeholder.com/150' : marker.image})`;
 
             const popup = new mapboxgl.Popup({offset: 25}).setHTML(
                 `<strong>${marker.label}</strong>` + '<br/><a href="/home">Read more</a>'
