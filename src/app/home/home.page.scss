@@ -5,9 +5,6 @@
   width: 100%;
 }
 
-.screencap-container {
-  height: 40vh;
-}
 .footer-panel {
   height: 60vh;
   background-color: #ececec;
@@ -19,4 +16,8 @@
 
 .white-background {
   background: white;
+}
+
+ion-content {
+  --background: #ececec;
 }

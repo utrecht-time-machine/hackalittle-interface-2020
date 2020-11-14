@@ -9,40 +9,40 @@ import {animate, state, style, transition, trigger,} from '@angular/animations';
   animations: [
     trigger('showingInfoAnimation', [
       // ...
-      state('showingInfo', style({
+      state('informationShown', style({
         height: '100vh'
       })),
-      state('notShowingInfo', style({
+      state('informationHidden', style({
         height: '60vh'
       })),
 
-      state('panoramaShowingInfo', style({
+      state('panoramaHidden', style({
         height: '0vh'
       })),
-      state('panoramaNotShowingInfo', style({
+      state('panoramaShown', style({
         height: '40vh'
       })),
 
-      transition('showingInfo => notShowingInfo', [
+      transition('informationShown => informationHidden', [
         animate('0.25s')
       ]),
-      transition('notShowingInfo => showingInfo', [
+      transition('informationHidden => informationShown', [
         animate('0.25s')
       ]),
-      transition('panoramaShowingInfo => panoramaNotShowingInfo', [
+      transition('panoramaShown => panoramaHidden', [
         animate('0.25s')
       ]),
-      transition('panoramaNotShowingInfo => panoramaShowingInfo', [
+      transition('panoramaHidden => panoramaShown', [
         animate('0.25s')
       ]),
     ]),]
 })
 export class HomePage {
-  showingMoreInfo = false;
+  moreInfoShown = false;
 
   constructor() {}
 
   showMoreInfo() {
-    this.showingMoreInfo = !this.showingMoreInfo;
+    this.moreInfoShown = !this.moreInfoShown;
   }
 }
