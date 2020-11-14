@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SparqlService } from './sparql.service';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import { LngLatLike, LngLat } from 'mapbox-gl';
+import { LngLatLike } from 'mapbox-gl';
 
 export interface Marker {
   lngLat: LngLatLike;

@@ -4,7 +4,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { Marker, MarkerService } from './marker.service';
 import { Feature, FeatureCollection } from 'geojson';
 import { ModalController } from '@ionic/angular';
-import { HomePage } from '../home/home.page';
+import { ContentViewer } from '../content-viewer/content-viewer.component';
 
 @Injectable({
   providedIn: 'root',
@@ -148,7 +148,7 @@ export class MapService {
       console.log(e.features);
 
       const modal = await this.modalController.create({
-        component: HomePage,
+        component: ContentViewer,
         cssClass: 'full-screen-modal',
         componentProps: {
           id: 'unknown',
