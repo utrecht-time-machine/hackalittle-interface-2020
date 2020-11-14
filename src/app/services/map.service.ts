@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../environments/environment';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import * as mapboxgl from 'mapbox-gl';
-import {Marker, MarkerService} from "./marker.service";
+import { Marker, MarkerService } from './marker.service';
+import { FeatureCollection } from 'geojson';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class MapService {
     map: mapboxgl.Map;
@@ -37,7 +38,7 @@ export class MapService {
     }
 
     private async addMarkersAsGeoJSON() {
-        const geojsonData = {
+        const geojsonData: FeatureCollection = {
             'type': 'FeatureCollection',
             'features': [
                 {
@@ -111,5 +112,5 @@ export class MapService {
         }
 
     }
-
+  }
 }
