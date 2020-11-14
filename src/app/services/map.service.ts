@@ -98,7 +98,7 @@ export class MapService {
             }
             const el = document.createElement('div');
             el.className = 'marker';
-            el.style.backgroundImage = `url(${!marker.image ? 'https://via.placeholder.com/150' : marker.image})`;
+            el.style.backgroundImage = `url(${!marker.image ? 'https://via.placeholder.com/150' : environment.proxyUrl + marker.image})`;
 
             const popup = new mapboxgl.Popup({offset: 25}).setHTML(
                 `<strong>${marker.label}</strong>` + '<br/><a href="/home">Read more</a>'

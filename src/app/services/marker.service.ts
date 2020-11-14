@@ -33,7 +33,6 @@ export class MarkerService {
     console.log('INIT MARKERS');
     const markers = await this.retrieveMarkers();
     this.markers.next(markers);
-    console.log(markers);
   }
 
   async retrieveMarkers(): Promise<Marker[]> {
