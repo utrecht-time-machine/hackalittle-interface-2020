@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {MapComponent} from "./components/map/map.component";
+import {EmbeddedComponent} from "./components/embedded/embedded.component";
 
 const routes: Routes = [
     {
@@ -10,6 +11,10 @@ const routes: Routes = [
     {
         path: 'map',
         component: MapComponent
+    },
+    {
+        path: 'embedded',
+        component: EmbeddedComponent
     },
     {
         path: '',

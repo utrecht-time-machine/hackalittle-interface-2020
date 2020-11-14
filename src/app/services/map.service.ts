@@ -38,7 +38,15 @@ export class MapService {
                     '<br/><a href="/home">Read more</a>',
                 imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/DomTorenUtrechtNederland.jpg',
                 coords: [5.121312, 52.090768]
+            },
+            {
+                html: '<strong>Jacobikerk</strong><br/>' +
+                    'De Jacobikerk was oorspronkelijk een van de vier middeleeuwse parochiekerken van de stad.' +
+                    '<br/><a href="/embedded">Read more</a>',
+                imageUrl: 'http://histomap.eu/wp-content/uploads/2017/03/266px-Jacobikerk_Utrecht.jpg',
+                coords: [5.115240, 52.095120]
             }
+
         ];
 
         for (const marker of markers) {

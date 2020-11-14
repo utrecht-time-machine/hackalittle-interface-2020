@@ -9,7 +9,8 @@ export const environment = {
         styleUrl: 'mapbox://styles/simondirks/ckggjvjq90ewx19pbojtgnrel',
         center: [5.104480, 52.092876],
         zoomLevel: 10
-    }
+    },
+    proxyUrl: 'https://proxy-simon.herokuapp.com/'
 };
 
 /*

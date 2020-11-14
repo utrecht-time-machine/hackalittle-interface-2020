@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import 'pinch-zoom-element';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-image-map',
@@ -8,6 +9,7 @@ import 'pinch-zoom-element';
 })
 export class ImageMapComponent implements OnInit {
   @ViewChild('pinchZoom') pinchZoom;
+    environment = environment;
 
   constructor() {}
 
