@@ -30,18 +30,7 @@ export class MapService {
 
     this.map.on('styleimagemissing', async (e) => {
       const markerId = e.id;
-
-      let imageUrl = this.markerService.retrieveMarkerImageById(markerId);
-
-      await new Promise((resolve, rejects) => {
-        this.map.loadImage(environment.proxyUrl + imageUrl, (error, image) => {
-          if (this.map.hasImage(markerId)) {
-            return resolve('Image already loaded');
-          }
-          this.map.addImage(markerId, image);
-          resolve(image);
-        });
-      });
+      this.addImageForMarkerId(markerId);
     });
 
     this.map.on('load', async () => {
@@ -51,9 +40,28 @@ export class MapService {
     });
   }
 
+  private async addImageForMarkerId(markerId) {
+    let imageUrl = this.markerService.retrieveMarkerImageById(markerId);
+
+    return await new Promise((resolve, rejects) => {
+      this.map.loadImage(environment.proxyUrl + imageUrl, (error, image) => {
+        if (error) {
+          console.warn(error);
+          return;
+        }
+
+        if (this.map.hasImage(markerId)) {
+          return resolve('Image already loaded');
+        }
+        this.map.addImage(markerId, image);
+        resolve(image);
+      });
+    });
+  }
+
   private async addMarkers() {
     let markers: Marker[] = await this.markerService.retrieveMarkers();
-    // markers = markers.splice(0, 50);
+    markers = markers.splice(0, environment.maxAmountMarkers);
 
     const features: Feature[] = markers.map((marker) => {
       return {
