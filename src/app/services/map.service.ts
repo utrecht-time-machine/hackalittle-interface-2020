@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import * as mapboxgl from 'mapbox-gl';
+import {Marker, MarkerService} from "./marker.service";
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +9,7 @@ import * as mapboxgl from 'mapbox-gl';
 export class MapService {
     map: mapboxgl.Map;
 
-    constructor() {
+    constructor(private markerService: MarkerService) {
 
     }
 
@@ -18,55 +19,90 @@ export class MapService {
             container: id,
             style: environment.mapbox.styleUrl,
             zoom: environment.mapbox.zoomLevel,
-            center: environment.mapbox.center as any
+            center: environment.mapbox.center as any,
         });
 
         this.map.addControl(new mapboxgl.NavigationControl());
 
         this.map.on('load', () => {
             this.map.resize();
+
+            this.addMarkers();
+            // this.markerService.markers.subscribe(async (markers) => {
+            //     await this.addMarkers(markers)
+            // });
         });
 
-        await this.addMarkers();
+
     }
 
-    private addMarkers() {
-        const markers = [
-            {
-                html: '<strong>Dom Tower</strong><br/>' +
-                    'The Dom Tower of Utrecht is the tallest church tower in the Netherlands, at 112 metres in height.' +
-                    '<br/><a href="/home">Read more</a>',
-                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/DomTorenUtrechtNederland.jpg',
-                coords: [5.121312, 52.090768]
-            },
-            {
-                html: '<strong>Jacobikerk</strong><br/>' +
-                    'De Jacobikerk was oorspronkelijk een van de vier middeleeuwse parochiekerken van de stad.' +
-                    '<br/><a href="/embedded">Read more</a>',
-                imageUrl: 'http://histomap.eu/wp-content/uploads/2017/03/266px-Jacobikerk_Utrecht.jpg',
-                coords: [5.115240, 52.095120]
-            },
-            {
-                html: '<strong>Oudegracht</strong><br/>' +
-                    'The Oudegracht, or "old canal", runs through the center of Utrecht, the Netherlands.' +
-                    '<br/><a href="/home">Read more</a>',
-                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Oudegracht_%28Utrecht%29.jpg/640px-Oudegracht_%28Utrecht%29.jpg',
-                coords: [5.1196157, 52.0891439]
+    private async addMarkersAsGeoJSON() {
+        const geojsonData = {
+            'type': 'FeatureCollection',
+            'features': [
+                {
+                    'type': 'Feature',
+                    'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                            -77.03238901390978,
+                            38.913188059745586
+                        ]
+                    },
+                    'properties': {
+                        'title': 'Mapbox DC'
+                    }
+                },
+                {
+                    'type': 'Feature',
+                    'geometry': {
+                        'type': 'Point',
+                        'coordinates': [-122.414, 37.776]
+                    },
+                    'properties': {
+                        'title': 'Mapbox SF'
+                    }
+                }
+            ]
+        };
+
+        this.map.addSource('points', {
+                'type': 'geojson',
+                'data': geojsonData
             }
-        ];
+        );
+
+        this.map.addLayer({
+            'id': 'points',
+            'type': 'symbol',
+            'source': 'points',
+            'layout': {
+                'icon-image': 'custom-marker',
+                'text-field': ['get', 'title'],
+                'text-font': [
+                    'Open Sans Semibold',
+                    'Arial Unicode MS Bold'
+                ],
+                'text-offset': [0, 1.25],
+                'text-anchor': 'top'
+            }
+        });
+    }
+
+    private async addMarkers() {
+        const markers = await this.markerService.retrieveMarkers();
 
         for (const marker of markers) {
-
             const el = document.createElement('div');
             el.className = 'marker';
-            el.style.backgroundImage = `url(${marker.imageUrl})`;
+            el.style.backgroundImage = `url(https://via.placeholder.com/150)`;
 
             const popup = new mapboxgl.Popup({offset: 25}).setHTML(
-                marker.html
+                `<strong>${marker.label}</strong>` + '<br/><a href="/home">Read more</a>'
             );
 
             new mapboxgl.Marker(el)
-                .setLngLat(marker.coords as any)
+                .setLngLat(marker.lngLat)
                 .setPopup(popup)
                 .addTo(this.map);
         }
