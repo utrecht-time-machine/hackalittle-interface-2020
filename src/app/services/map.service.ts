@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import * as mapboxgl from 'mapbox-gl';
 import { Marker, MarkerService } from './marker.service';
-import { FeatureCollection } from 'geojson';
+import { Feature, FeatureCollection } from 'geojson';
 
 @Injectable({
   providedIn: 'root',
@@ -23,11 +23,31 @@ export class MapService {
 
     this.map.addControl(new mapboxgl.NavigationControl());
 
-    this.map.on('load', () => {
+    this.map.on('styleimagemissing', async (e) => {
+      const markerId = e.id;
+
+      let imageUrl = this.markerService.retrieveMarkerImageById(markerId);
+      if (!imageUrl) {
+        imageUrl = 'https://via.placeholder.com/300';
+      }
+
+      await new Promise((resolve, rejects) => {
+        this.map.loadImage(environment.proxyUrl + imageUrl, (error, image) => {
+          if (this.map.hasImage(markerId)) {
+            return resolve('Image already loaded');
+          }
+          this.map.addImage(markerId, image);
+          resolve(image);
+        });
+      });
+    });
+
+    this.map.on('load', async () => {
       this.map.resize();
 
-      this.addMarkers();
-      // this.addMarkersAsGeoJSON();
+      this.addMarkersAsGeoJSON();
+
+      // this.addMarkers();
       // this.markerService.markers.subscribe(async (markers) => {
       //     await this.addMarkers(markers)
       // });
@@ -35,46 +55,82 @@ export class MapService {
   }
 
   private async addMarkersAsGeoJSON() {
+    let markers: Marker[] = await this.markerService.retrieveMarkers();
+    markers = markers.splice(0, 50);
+
+    const features: Feature[] = markers.map((marker) => {
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [marker.lngLat.lng, marker.lngLat.lat],
+        },
+        properties: {
+          title: marker.label,
+          id: marker.id,
+        },
+      };
+    });
+
     const geojsonData: FeatureCollection = {
       type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [-77.03238901390978, 38.913188059745586],
-          },
-          properties: {
-            title: 'Mapbox DC',
-          },
-        },
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [-122.414, 37.776],
-          },
-          properties: {
-            title: 'Mapbox SF',
-          },
-        },
-      ],
+      features: features,
     };
 
     this.map.addSource('points', {
       type: 'geojson',
       data: geojsonData,
       cluster: true,
-      clusterMaxZoom: 14,
+      clusterMaxZoom: 15,
       clusterRadius: 50,
     });
 
     this.map.addLayer({
-      id: 'points',
+      id: 'clusters',
+      type: 'circle',
+      source: 'points',
+      filter: ['has', 'point_count'],
+      // maxzoom: 15,
+
+      paint: {
+        'circle-color': [
+          'step',
+          ['get', 'point_count'],
+          '#51bbd6',
+          100,
+          '#f1f075',
+          500,
+          '#f28cb1',
+        ],
+        // 'circle-color': '#11b4da',
+        // 'circle-radius': 4,
+        'circle-radius': ['step', ['get', 'point_count'], 20, 50, 30, 750, 40],
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#fff',
+      },
+    });
+
+    this.map.addLayer({
+      id: 'cluster-count',
       type: 'symbol',
       source: 'points',
+      maxzoom: 15,
+      filter: ['has', 'point_count'],
       layout: {
-        'icon-image': 'custom-marker',
+        'text-field': '{point_count_abbreviated}',
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 12,
+      },
+    });
+
+    this.map.addLayer({
+      id: 'icons',
+      type: 'symbol',
+      source: 'points',
+      filter: ['!', ['has', 'point_count']],
+      layout: {
+        'icon-image': '{id}',
+        'icon-size': 0.15,
         'text-field': ['get', 'title'],
         'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
         'text-offset': [0, 1.25],
