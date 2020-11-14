@@ -1,158 +1,173 @@
 <div class="ion-padding information-panel"
-[ngClass]="[ui.isMoreInfoShown() ? 'full-screen' : '']">
-  <ion-card>
-    <ion-card-header>
-      <!--                <ion-card-subtitle>Destination</ion-card-subtitle>-->
-      <ion-card-title>Oudegracht 187</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>
-        Current use: Winkel Bebop (furniture)
-        <br/>
-        Creation date: 1590
-      </p>
+     [ngClass]="[ui.isMoreInfoShown() ? 'full-screen' : '']">
+    <ion-card>
+        <ion-card-header>
+            <!--                <ion-card-subtitle>Destination</ion-card-subtitle>-->
+            <ion-card-title>Oudegracht 187</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>
+                Current use: Winkel Bebop (furniture)
+                <br/>
+                Creation date: 1590
+            </p>
 
-      <div class="images">
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <img src="https://via.placeholder.com/150" alt="Placeholder Image"
-                   class="building-image">
-            </ion-col>
-            <ion-col>
-              <img src="https://via.placeholder.com/150" alt="Placeholder Image"
-                   class="building-image">
-            </ion-col>
-            <ion-col>
-              <img src="https://via.placeholder.com/150" alt="Placeholder Image"
-                   class="building-image">
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
+            <div class="images">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <img class="building-image" src="https://images4.persgroep.net/rcs/JzwgwUFQwsqAbkdtApdK7qqFW2g/diocontent/148835105/_fitwidth/694/?appId=21791a8992982cd8da851550a453bd7f&quality=0.8" alt="Placeholder Image"
+                                 class="building-image">
+                        </ion-col>
+                        <ion-col>
+                            <img class="building-image"
+                                    src="https://platform-duic.imgix.net/app/uploads/sites/2/2017/01/oudegracht-6-1125x750.jpg?auto=format%2Ccompress&ch=Width%2CDPR%2CSave-Data&dpr=2.63&fit=max&h=470&ixjsv=2.2.4&ixlib=php-1.2.1&q=38" alt="Placeholder Image"
+                                 class="building-image">
+                        </ion-col>
+                        <ion-col>
+                            <img class="building-image" src="https://www.delavastgoed.nl/fileadmin/_processed_/f/3/csm_Oudegracht_118_Utrecht_e064337c01.jpg" alt="Placeholder Image"
+                                 class="building-image">
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
 
-      <ion-button (click)="ui.onToggleDisplayInfo()" fill="clear">
-        Read {{ui.isMoreInfoShown() ? 'less' : 'more'}}
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+            <ion-button (click)="ui.onToggleDisplayInfo()" fill="clear">
+                Read {{ui.isMoreInfoShown() ? 'less' : 'more'}}
+            </ion-button>
+        </ion-card-content>
+    </ion-card>
 
-  <ion-card *ngIf="ui.isMoreInfoShown()">
-    <ion-card-header>
-      <ion-card-subtitle>Documentatie.org</ion-card-subtitle>
-      <ion-card-title>Beginkaart</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div class="beginkaart-text-content ion-padding-bottom"
-           [ngClass]="[beginkaartExpanded ? '' : 'collapsed']"
-           #beginkaart
-      >
-        Het hoekpand van Domplein en Servetstraat, uit 1871, heeft twee
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=bouwlaag">bouwlagen</a>
-        onder een <a target="_top" href="/uds4/zoekpagina3.asp?search=kap met plat">kap met plat</a>,
-        met <a target="_top" href="/uds4/zoekpagina3.asp?search=plat dak met schild">schilden</a>
-        aan de voorzijde, rechts en links.
-        De <a target="_top" href="/uds4/zoekpagina3.asp?search=voorgevel">voorgevel</a>
-        ligt aan de Servetstraat en is drie
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=vensteras">vensterassen</a>
-        breed, met de ingang in het midden tussen brede
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=getoogd venster">getoogde vensters</a>.
-        De begane grond is wit
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=pleisterwerk">gepleisterd</a>,
-        de
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=muuropening">muuropeningen</a>
-        zijn voorzien van een
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=omlijsting">omlijsting</a>.
-        Een <a target="_top" href="/uds4/zoekpagina3.asp?search=hoofdgestel">hoofdgestel</a>,
-        in plaats van een
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=cordonlijst">cordonlijst</a>,
-        sluit dit deel af.
-        Boven de omgepleisterde verdieping staat de zware
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=kroonlijst">kroonlijst</a>
-        op heel veel, dicht bij elkaar geplaatste
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=gootklos">gootklossen</a>.
-        Al deze elementen horen bij het
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=eclecticisme">eclecticisme</a>.<br>
-        De gevel aan het Domplein erg heel merkwaardig, je zou haast denken dat het er drie zijn door de
-        verschillen
-        tussen de drie delen, die ieder op de verdieping twee vensters hebben.
-        Het linker deel, uitgevoerd als
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=risaliet">risaliet</a>,
-        heeft dezelfde opbouw als de voorgevel.
-        Het middelste deel had oorspronkelijk twee vensterassen en was helemaal ongepleisterd, met een
-        cordonlijst
-        tussen de bouwlagen.
-        De begane grond is nu gepleisterd en de vensters zijn vervangen door een imitatie van het venster
-        links
-        ervan.
-        Het rechterdeel is helemaal
-        <a target="_top" href="/uds4/zoekpagina3.asp?search=pleisterwerk met schijnvoegen">gepleisterd met
-          schijnvoegen</a>
-        en heeft twee gekoppelde ingangen, ook de verdiepingsvensters zijn hier gekoppeld. De
-        kroonlijst van de twee rechter delen is een vereenvoudigde uitvoering van die van het
-        linker deel, gootklossen ontbreken hier.<br>
-        <div style="font-size:12px"><br>
-          Samen met de buurpanden aan het Domplein was dit huis lange tijd in gebruik als
-          garage Vredendaal, het
-          middelste deel van de gevel had toen garagedeuren. Oorspronkelijk was het pand
-          café met bovenwoning en nu weer.<br>
-          Anders dan de bebouwing ten noorden van dit perceel staat Servetstraat 12 niet op de plaats van
-          <a target="_top" href="/uds4/zoekpagina3.asp?search=Utrecht - Domplein 13 e.o. - Lofen">paleis
-            Lofen</a>.
-          De hele strook tot aan de gracht behoorde niet tot de
-          <a target="_top"
-             href="/uds4/zoekpagina3.asp?search=Utrecht - Domplein e.o. - immuniteit van de Dom">immuniteit
-            van de Dom</a>,
-          noch tot
-          <a target="_top"
-             href="/uds4/zoekpagina3.asp?search=Utrecht - Domplein e.o. - immuniteit van Oudmunster">die
-            van
-            Oudmunster
-          </a>.
-        </div>
-      </div>
+    <ion-card *ngIf="ui.isMoreInfoShown()">
+        <ion-card-header>
+            <ion-card-subtitle>Documentatie.org</ion-card-subtitle>
+            <ion-card-title>Beginkaart</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <div class="beginkaart-text-content ion-padding-bottom"
+                 [ngClass]="[beginkaartExpanded ? '' : 'collapsed']"
+                 #beginkaart
+            >
+                Het hoekpand van Domplein en Servetstraat, uit 1871, heeft twee
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=bouwlaag">bouwlagen</a>
+                onder een <a target="_top" href="/uds4/zoekpagina3.asp?search=kap met plat">kap met plat</a>,
+                met <a target="_top" href="/uds4/zoekpagina3.asp?search=plat dak met schild">schilden</a>
+                aan de voorzijde, rechts en links.
+                De <a target="_top" href="/uds4/zoekpagina3.asp?search=voorgevel">voorgevel</a>
+                ligt aan de Servetstraat en is drie
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=vensteras">vensterassen</a>
+                breed, met de ingang in het midden tussen brede
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=getoogd venster">getoogde vensters</a>.
+                De begane grond is wit
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=pleisterwerk">gepleisterd</a>,
+                de
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=muuropening">muuropeningen</a>
+                zijn voorzien van een
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=omlijsting">omlijsting</a>.
+                Een <a target="_top" href="/uds4/zoekpagina3.asp?search=hoofdgestel">hoofdgestel</a>,
+                in plaats van een
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=cordonlijst">cordonlijst</a>,
+                sluit dit deel af.
+                Boven de omgepleisterde verdieping staat de zware
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=kroonlijst">kroonlijst</a>
+                op heel veel, dicht bij elkaar geplaatste
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=gootklos">gootklossen</a>.
+                Al deze elementen horen bij het
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=eclecticisme">eclecticisme</a>.<br>
+                De gevel aan het Domplein erg heel merkwaardig, je zou haast denken dat het er drie zijn door de
+                verschillen
+                tussen de drie delen, die ieder op de verdieping twee vensters hebben.
+                Het linker deel, uitgevoerd als
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=risaliet">risaliet</a>,
+                heeft dezelfde opbouw als de voorgevel.
+                Het middelste deel had oorspronkelijk twee vensterassen en was helemaal ongepleisterd, met een
+                cordonlijst
+                tussen de bouwlagen.
+                De begane grond is nu gepleisterd en de vensters zijn vervangen door een imitatie van het venster
+                links
+                ervan.
+                Het rechterdeel is helemaal
+                <a target="_top" href="/uds4/zoekpagina3.asp?search=pleisterwerk met schijnvoegen">gepleisterd met
+                    schijnvoegen</a>
+                en heeft twee gekoppelde ingangen, ook de verdiepingsvensters zijn hier gekoppeld. De
+                kroonlijst van de twee rechter delen is een vereenvoudigde uitvoering van die van het
+                linker deel, gootklossen ontbreken hier.<br>
+                <div style="font-size:12px"><br>
+                    Samen met de buurpanden aan het Domplein was dit huis lange tijd in gebruik als
+                    garage Vredendaal, het
+                    middelste deel van de gevel had toen garagedeuren. Oorspronkelijk was het pand
+                    café met bovenwoning en nu weer.<br>
+                    Anders dan de bebouwing ten noorden van dit perceel staat Servetstraat 12 niet op de plaats van
+                    <a target="_top" href="/uds4/zoekpagina3.asp?search=Utrecht - Domplein 13 e.o. - Lofen">paleis
+                        Lofen</a>.
+                    De hele strook tot aan de gracht behoorde niet tot de
+                    <a target="_top"
+                       href="/uds4/zoekpagina3.asp?search=Utrecht - Domplein e.o. - immuniteit van de Dom">immuniteit
+                        van de Dom</a>,
+                    noch tot
+                    <a target="_top"
+                       href="/uds4/zoekpagina3.asp?search=Utrecht - Domplein e.o. - immuniteit van Oudmunster">die
+                        van
+                        Oudmunster
+                    </a>.
+                </div>
+            </div>
 
-      <div class="ion-text-center">
-        <ion-button fill="clear"
-                    color="medium"
-                    size="small"
-                    expand="full"
-                    class="beginkaart-read-more-button"
-                    (click)="onToggleBeginkaart()">
-          <ion-icon name="chevron-down-outline" *ngIf="!beginkaartExpanded"></ion-icon>
-          <ion-icon name="chevron-up-outline" *ngIf="beginkaartExpanded"></ion-icon>
-        </ion-button>
-      </div>
-    </ion-card-content>
-  </ion-card>
+            <div class="ion-text-center">
+                <ion-button fill="clear"
+                            color="medium"
+                            size="small"
+                            expand="full"
+                            class="beginkaart-read-more-button"
+                            (click)="onToggleBeginkaart()">
+                    <ion-icon name="chevron-down-outline" *ngIf="!beginkaartExpanded"></ion-icon>
+                    <ion-icon name="chevron-up-outline" *ngIf="beginkaartExpanded"></ion-icon>
+                </ion-button>
+            </div>
+        </ion-card-content>
+    </ion-card>
 
-  <ion-card *ngIf="ui.isMoreInfoShown()">
-    <ion-card-header>
-      <ion-card-subtitle>Documentatie.org</ion-card-subtitle>
-      <ion-card-title>References</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ul class="ion-no-margin">
-        <li>Things</li>
-        <li>Things</li>
-        <li>Things</li>
-        <li>Things</li>
-      </ul>
-    </ion-card-content>
-  </ion-card>
+    <ion-card *ngIf="ui.isMoreInfoShown()">
+        <ion-card-header>
+            <ion-card-subtitle>YouTube</ion-card-subtitle>
+            <ion-card-title>Oudegracht</ion-card-title>
+        </ion-card-header>
 
-  <ion-card *ngIf="ui.isMoreInfoShown()">
-    <ion-card-header>
-      <ion-card-subtitle>Documentatie.org</ion-card-subtitle>
-      <ion-card-title>Literature</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ul class="ion-no-margin">
-        <li>Things</li>
-        <li>Things</li>
-        <li>Things</li>
-        <li>Things</li>
-      </ul>
-    </ion-card-content>
-  </ion-card>
+        <ion-card-content>
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/UjZE4NhGpuI" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="ui.isMoreInfoShown()">
+        <ion-card-header>
+            <ion-card-subtitle>Documentatie.org</ion-card-subtitle>
+            <ion-card-title>References</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ul class="ion-no-margin">
+                <li>Things</li>
+                <li>Things</li>
+                <li>Things</li>
+                <li>Things</li>
+            </ul>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="ui.isMoreInfoShown()">
+        <ion-card-header>
+            <ion-card-subtitle>Documentatie.org</ion-card-subtitle>
+            <ion-card-title>Literature</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ul class="ion-no-margin">
+                <li>Things</li>
+                <li>Things</li>
+                <li>Things</li>
+                <li>Things</li>
+            </ul>
+        </ion-card-content>
+    </ion-card>
+
 </div>

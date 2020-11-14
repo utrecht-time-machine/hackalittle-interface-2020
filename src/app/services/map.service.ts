@@ -45,8 +45,14 @@ export class MapService {
                     '<br/><a href="/embedded">Read more</a>',
                 imageUrl: 'http://histomap.eu/wp-content/uploads/2017/03/266px-Jacobikerk_Utrecht.jpg',
                 coords: [5.115240, 52.095120]
+            },
+            {
+                html: '<strong>Oudegracht</strong><br/>' +
+                    'The Oudegracht, or "old canal", runs through the center of Utrecht, the Netherlands.' +
+                    '<br/><a href="/home">Read more</a>',
+                imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Oudegracht_%28Utrecht%29.jpg/640px-Oudegracht_%28Utrecht%29.jpg',
+                coords: [5.1196157, 52.0891439]
             }
-
         ];
 
         for (const marker of markers) {
