@@ -146,12 +146,17 @@ export class MapService {
 
     this.map.on('click', 'icons', async (e) => {
       console.log(e.features);
+      const id = e.features[0].properties.id;
+      if (!id) {
+        alert("No ID available");
+        return;
+      }
 
       const modal = await this.modalController.create({
         component: ContentViewer,
         cssClass: 'full-screen-modal',
         componentProps: {
-          id: e.features[0].properties.id,
+          id: id,
           modalController: this.modalController,
         },
       });

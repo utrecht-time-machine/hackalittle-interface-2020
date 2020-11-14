@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import 'pinch-zoom-element';
 import { environment } from 'src/environments/environment';
 import { ImageMapService } from '../../services/image-map.service';
@@ -9,6 +9,8 @@ import { ImageMapService } from '../../services/image-map.service';
   styleUrls: ['./image-map.component.scss'],
 })
 export class ImageMapComponent implements OnInit {
+  @Input() id: string;
+
   @ViewChild('pinchZoom') pinchZoom;
   environment = environment;
 
