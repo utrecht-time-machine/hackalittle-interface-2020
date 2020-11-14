@@ -151,7 +151,7 @@ export class MapService {
         component: ContentViewer,
         cssClass: 'full-screen-modal',
         componentProps: {
-          id: 'unknown',
+          id: e.features[0].properties.id,
           modalController: this.modalController,
         },
       });
