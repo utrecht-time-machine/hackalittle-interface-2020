@@ -38,9 +38,11 @@ export class MapService {
     this.map.on('load', async () => {
       this.map.resize();
 
-      this.markerService.markers.subscribe(async (markers) => {
-        console.log('Markers: ', markers);
-        await this.addMarkers();
+      this.markerService.allMarkers.subscribe(async (_) => {
+        await this.showEnabledMarkers();
+      });
+      this.markerService.enabledMarkerSourceIds.subscribe(async (_) => {
+        await this.showEnabledMarkers();
       });
     });
   }
@@ -74,12 +76,8 @@ export class MapService {
     this.map.removeSource('points');
   }
 
-  private async addMarkers() {
-    if (this.addedMarkers) {
-      this.removeMarkers();
-    }
-
-    const markers: Marker[] = await this.markerService.markers.getValue();
+  private async showEnabledMarkers() {
+    const markers: Marker[] = await this.markerService.getEnabledMarkers();
 
     const features: Feature[] = markers.map((marker) => {
       return {
@@ -99,6 +97,10 @@ export class MapService {
       type: 'FeatureCollection',
       features: features,
     };
+
+    if (this.map.getSource('points')) {
+      this.removeMarkers();
+    }
 
     this.map.addSource('points', {
       type: 'geojson',

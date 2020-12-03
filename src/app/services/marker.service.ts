@@ -12,7 +12,7 @@ import { UtilsService } from './utils.service';
   providedIn: 'root',
 })
 export class MarkerService {
-  markers: BehaviorSubject<Marker[]> = new BehaviorSubject<Marker[]>([]);
+  allMarkers: BehaviorSubject<Marker[]> = new BehaviorSubject<Marker[]>([]);
   allMarkerSourceIds: string[];
   enabledMarkerSourceIds: BehaviorSubject<string[]>;
 
@@ -29,6 +29,14 @@ export class MarkerService {
       this.allMarkerSourceIds
     );
     this.loadInitialMarkers();
+  }
+
+  public getEnabledMarkers(): Marker[] {
+    return this.allMarkers
+      .getValue()
+      .filter((marker) =>
+        this.enabledMarkerSourceIds.getValue().includes(marker.source)
+      );
   }
 
   public toggleMarkerSourceById(markerSourceId: string) {
@@ -52,11 +60,11 @@ export class MarkerService {
     const documentatieMarkers = await this.documentatieOrg.retrieveMarkers();
     const histomapMarkers = await this.histomap.retrieveMarkers();
     const allMarkers = histomapMarkers.concat(documentatieMarkers);
-    this.markers.next(allMarkers);
+    this.allMarkers.next(allMarkers);
   }
 
   retrieveMarkerImageById(markerId: string): string {
-    const markerImages: MarkerImage[] = this.markers
+    const markerImages: MarkerImage[] = this.allMarkers
       .getValue()
       .find((marker) => {
         return marker.id === markerId;
