@@ -1,0 +1,16 @@
+<ion-card class="source-selection">
+    <ion-card-content>
+        <ion-list>
+            <ion-item>
+                <ion-label>Documentatie.org</ion-label>
+                <ion-checkbox color="primary" checked slot="start"
+                              (ionChange)="markers.toggleMarkerSourceById(environment.markerSourceIds.documentatieOrg)"></ion-checkbox>
+            </ion-item>
+            <ion-item>
+                <ion-checkbox color="primary" checked slot="start"
+                              (ionChange)="markers.toggleMarkerSourceById(environment.markerSourceIds.histomap)"></ion-checkbox>
+                <ion-label>Histomap</ion-label>
+            </ion-item>
+        </ion-list>
+    </ion-card-content>
+</ion-card>

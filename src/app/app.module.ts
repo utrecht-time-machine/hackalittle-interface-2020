@@ -16,6 +16,8 @@ import { ContentViewer } from './components/content-viewer/content-viewer.compon
 import { ImageMapComponent } from './components/image-map/image-map.component';
 import { InformationPanelComponent } from './components/information-panel/information-panel.component';
 import { EmbeddedComponent } from './components/embedded/embedded.component';
+import { MapModule } from './components/map/map.module';
+import { SourceSelectionModule } from './components/map/source-selection/source-selection.module';
 
 @NgModule({
   declarations: [
@@ -32,8 +34,10 @@ import { EmbeddedComponent } from './components/embedded/embedded.component';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    MapModule,
+    SourceSelectionModule,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   providers: [
     StatusBar,
