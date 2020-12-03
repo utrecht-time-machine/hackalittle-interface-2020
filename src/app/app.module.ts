@@ -37,7 +37,7 @@ import { SourceSelectionModule } from './components/map/source-selection/source-
     MapModule,
     SourceSelectionModule,
   ],
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   providers: [
     StatusBar,

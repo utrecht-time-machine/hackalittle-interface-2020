@@ -9,6 +9,6 @@ import { SourceSelectionModule } from './source-selection/source-selection.modul
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, SourceSelectionModule],
   declarations: [MapComponent],
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class MapModule {}
