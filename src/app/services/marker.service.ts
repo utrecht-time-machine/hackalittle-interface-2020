@@ -63,7 +63,7 @@ export class MarkerService {
     this.allMarkers.next(allMarkers);
   }
 
-  retrieveMarkerImageById(markerId: string): string {
+  public retrieveMarkerImageById(markerId: string): string {
     const markerImages: MarkerImage[] = this.allMarkers
       .getValue()
       .find((marker) => {
@@ -85,6 +85,9 @@ export class MarkerService {
       //   return environment.proxyUrl + markerImage.url;
       // }
       if (this.utils.isValidUrl(markerImage.url)) {
+        // if (markerImage.url.endsWith('.jpg')) {
+        //   return `${environment.imageProxyUrl}?url=${markerImage.url}&width=200`;
+        // }
         return environment.proxyUrl + markerImage.url;
       } else {
         return markerImage.url;

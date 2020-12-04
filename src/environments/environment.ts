@@ -11,6 +11,7 @@ export const environment = {
     center: [5.1196157, 52.0891439],
     zoomLevel: 13,
   },
+  imageProxyUrl: 'http://hualab.nl/proxy/',
   proxyUrl: 'https://proxy-simon.herokuapp.com/',
   corsProxyUrl: 'http://localhost:8080/',
   sparqlEndpoints: {
