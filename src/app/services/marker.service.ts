@@ -90,7 +90,7 @@ export class MarkerService {
           markerImage.url.endsWith('.png') ||
           markerImage.url.endsWith('.jpeg')
         ) {
-          return `${environment.proxyUrl}${environment.imageProxyUrl}?url=${markerImage.url}&height=40`;
+          return `${environment.imageProxyUrl}?url=${markerImage.url}&height=${environment.markerImageHeight}`;
         }
 
         return environment.proxyUrl + markerImage.url;

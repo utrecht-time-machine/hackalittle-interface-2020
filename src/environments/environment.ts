@@ -34,6 +34,7 @@ export const environment = {
     documentatieOrg: 'documentatie.org',
     histomap: 'histomap',
   },
+  markerImageHeight: 40,
 };
 
 /*
