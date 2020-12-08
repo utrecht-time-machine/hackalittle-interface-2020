@@ -85,9 +85,14 @@ export class MarkerService {
       //   return environment.proxyUrl + markerImage.url;
       // }
       if (this.utils.isValidUrl(markerImage.url)) {
-        // if (markerImage.url.endsWith('.jpg')) {
-        //   return `${environment.imageProxyUrl}?url=${markerImage.url}&width=200`;
-        // }
+        if (
+          markerImage.url.endsWith('.jpg') ||
+          markerImage.url.endsWith('.png') ||
+          markerImage.url.endsWith('.jpeg')
+        ) {
+          return `${environment.proxyUrl}${environment.imageProxyUrl}?url=${markerImage.url}&height=40`;
+        }
+
         return environment.proxyUrl + markerImage.url;
       } else {
         return markerImage.url;

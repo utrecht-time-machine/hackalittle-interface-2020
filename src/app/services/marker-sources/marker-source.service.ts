@@ -30,11 +30,12 @@ export abstract class MarkerSourceService {
         ? rawMarker.fileURL
         : environment.placeholderMarkerImage;
 
-      const isDocumentatieOrgMarker =
-        rawMarker.source === environment.markerSourceIds.documentatieOrg;
-      if (isDocumentatieOrgMarker) {
-        markerImageUrl = environment.documentatieMarkerImage;
-      }
+      // const isDocumentatieOrgMarker =
+      //   rawMarker.source === environment.markerSourceIds.documentatieOrg;
+      // if (isDocumentatieOrgMarker) {
+      //   markerImageUrl = environment.documentatieMarkerImage;
+      // }
+
       const markerImage = {
         url: markerImageUrl,
         kaartsoort: rawMarker.kaartsoort,
