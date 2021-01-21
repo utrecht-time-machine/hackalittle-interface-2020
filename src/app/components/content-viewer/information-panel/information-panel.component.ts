@@ -11,6 +11,8 @@ import { Entity } from '../../../models/entity.model';
 import { environment } from 'src/environments/environment';
 import { EntityService } from '../../../services/entity.service';
 import { WikidataService } from '../../../services/wikidata.service';
+import { Lightbox, LightboxConfig } from 'ngx-lightbox';
+import { LightboxImageModel } from '../../../models/lightbox-image.model';
 
 @Component({
   selector: 'app-information-panel',
@@ -18,6 +20,8 @@ import { WikidataService } from '../../../services/wikidata.service';
   styleUrls: ['./information-panel.component.scss'],
 })
 export class InformationPanelComponent implements OnInit {
+  lightboxImages: LightboxImageModel[] = [];
+
   env = environment;
 
   beginkaartExpanded = false;
@@ -27,11 +31,48 @@ export class InformationPanelComponent implements OnInit {
   constructor(
     public ui: UserInterfaceService,
     public entities: EntityService,
-    public wikidata: WikidataService
-  ) {}
+    public wikidata: WikidataService,
+    private lightbox: Lightbox,
+    private lightboxConfig: LightboxConfig
+  ) {
+    lightboxConfig.showZoom = true;
+  }
 
   ngOnInit() {
     this.enrichEntity();
+    this.initializeLightbox();
+  }
+
+  public entityRefersToIds() {
+    return Object.values(this.entity.refersToIds).length > 0;
+  }
+
+  private initializeLightbox() {
+    this.lightboxImages = [];
+    for (const image of this.entity.images.slice(
+      0,
+      environment.amtFeaturedImagesShown
+    )) {
+      const src = image.url;
+      const caption = 'Retrieved from ' + image.source;
+      const thumb = `${environment.imageProxyUrl}?url=${image.url}&height=${environment.featuredImageHeight}`;
+      const lightboxImage: LightboxImageModel = {
+        src: src,
+        caption: caption,
+        thumb: thumb,
+      };
+
+      this.lightboxImages.push(lightboxImage);
+    }
+  }
+
+  public onOpenLightboxImage(index: number): void {
+    console.log('Opening lightbox image', index);
+    this.lightbox.open(this.lightboxImages, index);
+  }
+
+  public onCloseLightbox(): void {
+    this.lightbox.close();
   }
 
   private async enrichEntity() {
@@ -40,6 +81,7 @@ export class InformationPanelComponent implements OnInit {
       this.entity,
       this.entity.refersToIds.wikidataID
     );
+    this.initializeLightbox();
   }
 
   private async reconcileWithWikidata() {

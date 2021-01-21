@@ -5,35 +5,33 @@
         <!--            <ion-card-title>Oudegracht 187 (EXAMPLE)</ion-card-title>-->
         <!--        </ion-card-header>-->
         <ion-card-content>
-            <p>
-                [EXAMPLE] Current use: Winkel Bebop (furniture)
-                <br/>
-            </p>
+            <p *ngIf="entityRefersToIds()">More information:
+                <span *ngIf="entity.refersToIds.rijksmonumentID" class="ion-padding-end">
+                    <a [href]="entity.refersToIds.rijksmonumentID" target="_blank">Rijksmonumentenregister</a>
+                </span>
 
-            <p *ngIf="entity.refersToIds.rijksmonumentID">
-                <a [href]="entity.refersToIds.rijksmonumentID" target="_blank">Rijksmonumentenregister</a>
-            </p>
+                <span *ngIf="entity.refersToIds.bagID" class="ion-padding-end">
+                    <a [href]="entity.refersToIds.bagID" target="_blank">BAG</a>
+                </span>
 
-            <p *ngIf="entity.refersToIds.bagID">
-                <a [href]="entity.refersToIds.bagID" target="_blank">BAG</a>
-            </p>
+                <span *ngIf="entity.refersToIds.udsObjectNr" class="ion-padding-end">
+                    <a [href]="env.udsObjectNrUrl + entity.refersToIds.udsObjectNr" target="_blank">Documentatie.org</a>
+                </span>
 
-            <p *ngIf="entity.refersToIds.udsObjectNr">
-                <a [href]="env.udsObjectNrUrl + entity.refersToIds.udsObjectNr" target="_blank">Documentatie.org</a>
-            </p>
-
-            <p *ngIf="entity.refersToIds.wikidataID">
-                <a [href]="entity.refersToIds.wikidataID" target="_blank">Wikidata</a>
+                <span *ngIf="entity.refersToIds.wikidataID">
+                    <a [href]="entity.refersToIds.wikidataID" target="_blank">Wikidata</a>
+                </span>
             </p>
 
             <div class="featured-images ion-padding-top" *ngIf="entities.getMostRelevantImages(entity)">
                 <ion-grid>
                     <ion-row>
                         <ion-col
-                                *ngFor="let image of entities.getMostRelevantImages(entity).slice(0, env.amtFeaturedImagesShown)">
+                                *ngFor="let image of lightboxImages; let i=index">
                             <img class="featured-image"
-                                 src="{{env.imageProxyUrl}}?url={{image.url}}&height={{env.featuredImageHeight}}`"
-                                 alt="{{entity.label}} Image">
+                                 [src]="image.thumb"
+                                 (click)="onOpenLightboxImage(i)"
+                                 alt="{{entity.label}} Image"/>
                         </ion-col>
                     </ion-row>
                 </ion-grid>

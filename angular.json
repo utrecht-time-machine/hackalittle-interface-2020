@@ -36,6 +36,9 @@
                 "input": "node_modules/mapbox-gl/dist/mapbox-gl.css"
               },
               {
+                "input": "./node_modules/ngx-lightbox/lightbox.css"
+              },
+              {
                 "input": "src/theme/variables.scss"
               },
               {

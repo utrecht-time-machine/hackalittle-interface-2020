@@ -36,9 +36,9 @@ export const environment = {
   udsObjectNrUrl:
     'http://www.documentatie.org/Object/Object-opvragen-OBJ.asp?Objectnummer=',
   sourceIds: {
-    uds: 'documentatie.org',
-    histomap: 'histomap',
-    wikidata: 'wikidata',
+    uds: 'Documentatie.org',
+    histomap: 'Histomap',
+    wikidata: 'Wikidata',
   },
   markerImageHeight: 40,
   featuredImageHeight: 200,

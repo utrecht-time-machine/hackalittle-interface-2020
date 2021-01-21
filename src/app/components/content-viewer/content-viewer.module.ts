@@ -5,9 +5,10 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { ContentViewerComponent } from './content-viewer.component';
 import { InformationPanelComponent } from './information-panel/information-panel.component';
 import { ClickableImageMapComponent } from './clickable-image-map/clickable-image-map.component';
+import { LightboxModule } from 'ngx-lightbox';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [CommonModule, FormsModule, IonicModule, LightboxModule],
   declarations: [
     ContentViewerComponent,
     InformationPanelComponent,

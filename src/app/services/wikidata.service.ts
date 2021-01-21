@@ -17,9 +17,11 @@ export class WikidataService {
 
     const rawResult = await this.sparql.query(
       environment.sparqlEndpoints.wikidata,
-      `SELECT ?wikidataId ?inception ?image
+      `SELECT ?wikidataId ?label ?inception ?image
 WHERE 
 {
+  <${wikidataId}> rdfs:label ?label . 
+  filter(langMatches(lang(?label),"EN")) .
   OPTIONAL { <${wikidataId}> wdt:P571 ?inception . }
   OPTIONAL { <${wikidataId}> wdt:P18 ?image . }
 }
@@ -39,6 +41,12 @@ LIMIT 10000`
         source: environment.sourceIds.wikidata,
       };
       entity.images.unshift(image);
+    }
+
+    const rawLabel = rawResult?.results?.bindings[0]?.label?.value;
+    if (rawLabel) {
+      // TODO: *Merge* more cleverly with existing value? Currently Wikidata always overrides any previous label.
+      entity.label = rawLabel;
     }
 
     console.log('Enriched entity:', entity);
