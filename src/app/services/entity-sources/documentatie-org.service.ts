@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { SparqlService } from '../sparql.service';
-import { MarkerSourceService } from './marker-source.service';
+import { EntitySourceService } from './entity-source.service';
 import { UtilsService } from '../utils.service';
-import { MarkerSparqlRes } from '../../models/marker-sparql-res.model';
+import { EntitySparqlRes } from '../../models/marker-sparql-res.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DocumentatieOrgService extends MarkerSourceService {
+export class DocumentatieOrgService extends EntitySourceService {
   protected constructor(
     private sparql: SparqlService,
     protected utils: UtilsService
@@ -16,8 +16,8 @@ export class DocumentatieOrgService extends MarkerSourceService {
     super(utils);
   }
 
-  protected async retrieveRawMarkers(): Promise<MarkerSparqlRes> {
-    const markersQuery = `
+  protected async retrieveRawEntities(): Promise<EntitySparqlRes> {
+    const entitiesQuery = `
         SELECT ?sub ?lat ?long ?label ?fileURL ?kaartsoort WHERE {
         ?sub dct:spatial ?obj .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
@@ -29,17 +29,16 @@ export class DocumentatieOrgService extends MarkerSourceService {
         ?pages <http://documentatie.org/def/fileURL> ?fileURL .
         ?pages <http://documentatie.org/def/kaartsoort> ?kaartsoort }
         } LIMIT 10000`;
-    let rawMarkers: MarkerSparqlRes = await this.sparql.query(
+    let rawEntities: EntitySparqlRes = await this.sparql.query(
       environment.sparqlEndpoints.uds,
 
-      `${environment.sparqlPrefixes.hua} ${markersQuery}`
+      `${environment.sparqlPrefixes.hua} ${entitiesQuery}`
     );
 
-    rawMarkers = rawMarkers.map((rawMarker) => {
-      const rawMarkerWithSource = rawMarker;
-      rawMarkerWithSource.source = environment.markerSourceIds.documentatieOrg;
-      return rawMarkerWithSource;
+    rawEntities = rawEntities.map((rawEntity) => {
+      rawEntity.source = environment.sourceIds.documentatieOrg;
+      return rawEntity;
     });
-    return rawMarkers;
+    return rawEntities;
   }
 }

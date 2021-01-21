@@ -10,23 +10,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ContentViewer } from './components/content-viewer/content-viewer.component';
-import { ImageMapComponent } from './components/image-map/image-map.component';
-import { InformationPanelComponent } from './components/information-panel/information-panel.component';
+import { ClickableImageMapComponent } from './components/content-viewer/clickable-image-map/clickable-image-map.component';
 import { EmbeddedComponent } from './components/embedded/embedded.component';
 import { MapModule } from './components/map/map.module';
 import { SourceSelectionModule } from './components/map/source-selection/source-selection.module';
+import { ContentViewerModule } from './components/content-viewer/content-viewer.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ContentViewer,
-    ImageMapComponent,
-    InformationPanelComponent,
-    EmbeddedComponent,
-  ],
+  declarations: [AppComponent, EmbeddedComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -36,9 +27,8 @@ import { SourceSelectionModule } from './components/map/source-selection/source-
     HttpClientModule,
     MapModule,
     SourceSelectionModule,
+    ContentViewerModule,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-
   providers: [
     StatusBar,
     SplashScreen,

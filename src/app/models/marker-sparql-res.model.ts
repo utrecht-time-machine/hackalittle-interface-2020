@@ -1,4 +1,4 @@
-export type MarkerSparqlRes = {
+export type EntitySparqlRes = {
   sub: string;
   lat: string;
   long: string;

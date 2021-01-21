@@ -1,14 +1,14 @@
 import { LngLatLike } from 'mapbox-gl';
 
-export interface Marker {
+export interface Entity {
   lngLat: LngLatLike;
   label: string;
   id: string;
-  images: MarkerImage[];
+  images: EntityImage[];
   source: string;
 }
 
-export interface MarkerImage {
+export interface EntityImage {
   url: string;
   source: string;
   kaartsoort: string;

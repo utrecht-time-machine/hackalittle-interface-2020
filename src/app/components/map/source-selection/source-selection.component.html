@@ -4,11 +4,11 @@
             <ion-item>
                 <ion-label>Documentatie.org</ion-label>
                 <ion-checkbox color="primary" checked slot="start"
-                              (ionChange)="markers.toggleMarkerSourceById(environment.markerSourceIds.documentatieOrg)"></ion-checkbox>
+                              (ionChange)="map.toggleMarkerSourceById(environment.sourceIds.documentatieOrg)"></ion-checkbox>
             </ion-item>
             <ion-item>
                 <ion-checkbox color="primary" checked slot="start"
-                              (ionChange)="markers.toggleMarkerSourceById(environment.markerSourceIds.histomap)"></ion-checkbox>
+                              (ionChange)="map.toggleMarkerSourceById(environment.sourceIds.histomap)"></ion-checkbox>
                 <ion-label>Histomap</ion-label>
             </ion-item>
         </ion-list>

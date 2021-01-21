@@ -1,23 +1,27 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {UserInterfaceService} from "../../services/user-interface.service";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { UserInterfaceService } from '../../../services/user-interface.service';
 
 @Component({
   selector: 'app-information-panel',
   templateUrl: './information-panel.component.html',
-  styleUrls: ['./information-panel.component.scss']
-
+  styleUrls: ['./information-panel.component.scss'],
 })
 export class InformationPanelComponent implements OnInit {
   beginkaartExpanded = false;
   beginkaartCollapsedHeight = 100; //px
 
-  constructor(public ui: UserInterfaceService) { }
+  constructor(public ui: UserInterfaceService) {}
 
   ngOnInit() {}
 
   @ViewChild('beginkaart') beginkaartElRef: ElementRef;
-
 
   onToggleBeginkaart() {
     this.beginkaartExpanded = !this.beginkaartExpanded;
@@ -62,5 +66,4 @@ export class InformationPanelComponent implements OnInit {
 
     element.setAttribute('data-collapsed', 'false');
   }
-
 }

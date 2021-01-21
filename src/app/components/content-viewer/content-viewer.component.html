@@ -3,7 +3,7 @@
         <ion-buttons slot="start">
             <ion-button (click)="this.modalController.dismiss()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
         </ion-buttons>
-        <ion-title>Oudegracht (EXAMPLE)</ion-title>
+        <ion-title>{{title}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
 
     <div class="panorama-screencap-container"
          [@showingInfoAnimation]="ui.isMoreInfoShown() ? 'panoramaHidden' : 'panoramaShown'">
-        <app-image-map></app-image-map>
+        <app-clickable-image-map></app-clickable-image-map>
     </div>
 
     <app-information-panel

@@ -1,8 +1,9 @@
 import {
-    Component,
-    ElementRef, Input,
-    ViewChild,
-    ViewEncapsulation,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   animate,
@@ -54,9 +55,10 @@ import { ModalController } from '@ionic/angular';
     ]),
   ],
 })
-export class ContentViewer {
-    @Input() modalController: ModalController;
-    @Input() id: string;
+export class ContentViewerComponent {
+  @Input() modalController: ModalController;
+  @Input() id: string;
+  @Input() title: string;
 
-    constructor(public ui: UserInterfaceService) {}
+  constructor(public ui: UserInterfaceService) {}
 }

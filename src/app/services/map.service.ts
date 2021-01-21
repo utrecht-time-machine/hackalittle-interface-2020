@@ -3,24 +3,31 @@ import { environment } from '../../environments/environment';
 import * as mapboxgl from 'mapbox-gl';
 import { Feature, FeatureCollection } from 'geojson';
 import { ModalController } from '@ionic/angular';
-import { ContentViewer } from '../components/content-viewer/content-viewer.component';
-import { MarkerService } from './marker.service';
-import { Marker } from '../models/marker.model';
+import { EntityService } from './entity.service';
+import { Entity } from '../models/marker.model';
+import { EventData, MapboxGeoJSONFeature, MapMouseEvent } from 'mapbox-gl';
+import { ContentViewerComponent } from '../components/content-viewer/content-viewer.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
   map: mapboxgl.Map;
-  addedMarkers = false;
+  markersAddedToMap = false;
+
+  private shownMarkerSourceIds: BehaviorSubject<string[]>;
 
   constructor(
-    private markerService: MarkerService,
+    private entities: EntityService,
     private modalController: ModalController
   ) {}
 
   async initializeMap(id: string) {
     (mapboxgl as any).accessToken = environment.mapbox.accessToken;
+    this.shownMarkerSourceIds = new BehaviorSubject<string[]>(
+      this.entities.getSourceIds()
+    );
     this.map = new mapboxgl.Map({
       container: id,
       style: environment.mapbox.styleUrl,
@@ -32,25 +39,25 @@ export class MapService {
 
     this.map.on('styleimagemissing', async (e) => {
       const markerId = e.id;
-      this.addImageForMarkerId(markerId);
+      await this.addImageForMarkerId(markerId);
     });
 
     this.map.on('load', async () => {
       this.map.resize();
 
-      this.markerService.allMarkers.subscribe(async (_) => {
-        await this.showEnabledMarkers();
+      this.entities.all.subscribe(async (_) => {
+        await this.showMarkers();
       });
-      this.markerService.enabledMarkerSourceIds.subscribe(async (_) => {
-        await this.showEnabledMarkers();
+      this.shownMarkerSourceIds.subscribe(async (_) => {
+        await this.showMarkers();
       });
     });
   }
 
   private async addImageForMarkerId(markerId) {
-    const imageUrl = this.markerService.retrieveMarkerImageById(markerId);
+    const imageUrl = this.entities.retrieveImageById(markerId);
     if (!imageUrl) {
-      console.log('IMAGE', markerId, imageUrl);
+      console.log('No image found for marker:', markerId, imageUrl);
     }
 
     return await new Promise((resolve, rejects) => {
@@ -70,14 +77,14 @@ export class MapService {
   }
 
   private async removeMarkers() {
-    this.map.removeLayer('icons');
+    this.map.removeLayer('markers');
     this.map.removeLayer('cluster-count');
     this.map.removeLayer('clusters');
     this.map.removeSource('points');
   }
 
-  private async showEnabledMarkers() {
-    const markers: Marker[] = await this.markerService.getEnabledMarkers();
+  private async showMarkers() {
+    const markers: Entity[] = await this.getShownMarkers();
 
     const features: Feature[] = markers.map((marker) => {
       return {
@@ -99,7 +106,7 @@ export class MapService {
     };
 
     if (this.map.getSource('points')) {
-      this.removeMarkers();
+      await this.removeMarkers();
     }
 
     this.map.addSource('points', {
@@ -149,7 +156,7 @@ export class MapService {
     });
 
     this.map.addLayer({
-      id: 'icons',
+      id: 'markers',
       type: 'symbol',
       source: 'points',
       filter: ['!', ['has', 'point_count']],
@@ -164,27 +171,59 @@ export class MapService {
       },
     });
 
-    if (!this.addedMarkers) {
-      this.addedMarkers = true;
+    if (!this.markersAddedToMap) {
+      this.markersAddedToMap = true;
 
-      this.map.on('click', 'icons', async (e) => {
-        console.log(e.features);
-        const id = e.features[0].properties.id;
-        if (!id) {
-          alert('No ID available');
-          return;
-        }
-
-        const modal = await this.modalController.create({
-          component: ContentViewer,
-          cssClass: 'full-screen-modal',
-          componentProps: {
-            id,
-            modalController: this.modalController,
-          },
-        });
-        await modal.present();
+      this.map.on('click', 'markers', async (e) => {
+        await this.onMapMarkerClicked(e);
       });
     }
+  }
+
+  public getShownMarkers(): Entity[] {
+    return this.entities
+      .getAll()
+      .filter((entity) =>
+        this.shownMarkerSourceIds.getValue().includes(entity.source)
+      );
+  }
+
+  public toggleMarkerSourceById(sourceId: string) {
+    let shownMarkerSourceIds = this.shownMarkerSourceIds.getValue();
+
+    const markerSourceIsShown = shownMarkerSourceIds.includes(sourceId);
+    if (markerSourceIsShown) {
+      shownMarkerSourceIds = shownMarkerSourceIds.filter(
+        (shownSourceId) => shownSourceId !== sourceId
+      );
+    } else {
+      shownMarkerSourceIds.push(sourceId);
+    }
+    this.shownMarkerSourceIds.next(shownMarkerSourceIds);
+    console.log('Currently shown sources:', shownMarkerSourceIds);
+  }
+
+  private async onMapMarkerClicked(
+    e: MapMouseEvent & { features?: MapboxGeoJSONFeature[] } & EventData
+  ) {
+    console.log(e.features);
+    const id = e.features[0].properties.id;
+    if (!id) {
+      console.warn('No ID found for clicked entity.');
+      return;
+    }
+    const title = e.features[0].properties?.title;
+
+    console.log(this.modalController);
+    const modal = await this.modalController.create({
+      component: ContentViewerComponent,
+      cssClass: 'full-screen-modal',
+      componentProps: {
+        id,
+        title,
+        modalController: this.modalController,
+      },
+    });
+    await modal.present();
   }
 }

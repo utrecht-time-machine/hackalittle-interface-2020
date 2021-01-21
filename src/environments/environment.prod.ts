@@ -26,7 +26,7 @@ export const environment = {
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>`,
   },
   documentatieOntologyIRI: 'http://documentatie.org/id/kaartsoort/',
-  markerSourceIds: {
+  sourceIds: {
     documentatieOrg: 'documentatie.org',
     histomap: 'histomap',
   },

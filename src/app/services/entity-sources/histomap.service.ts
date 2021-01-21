@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { SparqlService } from '../sparql.service';
-import { MarkerSourceService } from './marker-source.service';
+import { EntitySourceService } from './entity-source.service';
 import { UtilsService } from '../utils.service';
-import { MarkerSparqlRes } from '../../models/marker-sparql-res.model';
+import { EntitySparqlRes } from '../../models/marker-sparql-res.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HistomapService extends MarkerSourceService {
+export class HistomapService extends EntitySourceService {
   protected constructor(
     private sparql: SparqlService,
     protected utils: UtilsService
@@ -16,8 +16,8 @@ export class HistomapService extends MarkerSourceService {
     super(utils);
   }
 
-  protected async retrieveRawMarkers(): Promise<MarkerSparqlRes> {
-    const markersQuery = `
+  protected async retrieveRawEntities(): Promise<EntitySparqlRes> {
+    const entitiesQuery = `
         PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX schema: <http://schema.org/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
@@ -39,18 +39,17 @@ SELECT DISTINCT ?sub ?lat ?long ?label ?fileURL WHERE {
            schema:text ?text .
 }`;
 
-    let rawMarkers: MarkerSparqlRes = await this.sparql.query(
+    let rawEntities: EntitySparqlRes = await this.sparql.query(
       environment.sparqlEndpoints.histomap,
 
-      `${environment.sparqlPrefixes.hua} ${markersQuery}`
+      `${environment.sparqlPrefixes.hua} ${entitiesQuery}`
     );
 
-    rawMarkers = rawMarkers.map((rawMarker) => {
-      const rawMarkerWithSource = rawMarker;
-      rawMarkerWithSource.source = environment.markerSourceIds.histomap;
-      return rawMarkerWithSource;
+    rawEntities = rawEntities.map((rawEntity) => {
+      rawEntity.source = environment.sourceIds.histomap;
+      return rawEntity;
     });
 
-    return rawMarkers;
+    return rawEntities;
   }
 }

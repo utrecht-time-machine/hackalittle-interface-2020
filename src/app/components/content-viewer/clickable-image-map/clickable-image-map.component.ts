@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import 'pinch-zoom-element';
 import { environment } from 'src/environments/environment';
-import { ImageMapService } from '../../services/image-map.service';
+import { ImageMapService } from '../../../services/image-map.service';
 
 @Component({
-  selector: 'app-image-map',
-  templateUrl: './image-map.component.html',
-  styleUrls: ['./image-map.component.scss'],
+  selector: 'app-clickable-image-map',
+  templateUrl: './clickable-image-map.component.html',
+  styleUrls: ['./clickable-image-map.component.scss'],
 })
-export class ImageMapComponent implements OnInit {
+export class ClickableImageMapComponent implements OnInit {
   @Input() id: string;
 
   @ViewChild('pinchZoom') pinchZoom;
@@ -29,6 +29,6 @@ export class ImageMapComponent implements OnInit {
     this.imageMapItems = await this.imageMapService.getImageMapItems(
       imageMapId
     );
-    console.log(this.imageMapItems);
+    // console.log(this.imageMapItems);
   }
 }

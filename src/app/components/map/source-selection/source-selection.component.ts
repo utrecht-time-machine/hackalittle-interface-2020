@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MarkerService } from '../../../services/marker.service';
 import { environment } from '../../../../environments/environment';
+import { MapService } from '../../../services/map.service';
 
 @Component({
   selector: 'app-source-selection',
@@ -10,7 +10,7 @@ import { environment } from '../../../../environments/environment';
 export class SourceSelectionComponent implements OnInit {
   environment = environment;
 
-  constructor(public markers: MarkerService) {}
+  constructor(public map: MapService) {}
 
   ngOnInit() {}
 }
