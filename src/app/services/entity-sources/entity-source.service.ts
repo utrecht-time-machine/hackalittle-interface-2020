@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { SparqlService } from '../sparql.service';
 import { UtilsService } from '../utils.service';
-import { EntitySparqlRes } from '../../models/marker-sparql-res.model';
-import { Entity } from '../../models/marker.model';
+import { EntitySparqlRes } from '../../models/entity-sparql-res';
+import { Entity } from '../../models/entity.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,15 +22,7 @@ export abstract class EntitySourceService {
     for (const rawEntity of rawEntities) {
       const entityId = rawEntity.sub;
       const isValidEntityId = this.utils.isValidImageUrl(rawEntity.fileURL);
-      let entityImageUrl = isValidEntityId
-        ? rawEntity.fileURL
-        : environment.placeholderMarkerImage;
-
-      // const isDocumentatieOrgMarker =
-      //   rawMarker.source === environment.markerSourceIds.documentatieOrg;
-      // if (isDocumentatieOrgMarker) {
-      //   entityImageUrl = environment.documentatieMarkerImage;
-      // }
+      let entityImageUrl = isValidEntityId ? rawEntity.fileURL : undefined;
 
       const entityImage = {
         url: entityImageUrl,
@@ -42,7 +32,7 @@ export abstract class EntitySourceService {
       const existingEntity = entities[entityId];
 
       if (!existingEntity) {
-        const entity: Entity = {
+        entities[entityId] = {
           lngLat: {
             lng: parseFloat(rawEntity.long),
             lat: parseFloat(rawEntity.lat),
@@ -50,11 +40,12 @@ export abstract class EntitySourceService {
           label: rawEntity.label,
           id: rawEntity.sub,
           source: rawEntity.source,
-          images: [entityImage],
+          images: [],
         };
-        entities[entityId] = entity;
-      } else {
-        existingEntity.images.push(entityImage);
+      }
+
+      if (entityImage?.url) {
+        entities[entityId].images.push(entityImage);
       }
     }
 

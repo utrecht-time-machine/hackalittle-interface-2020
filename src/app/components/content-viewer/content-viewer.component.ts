@@ -14,6 +14,7 @@ import {
 } from '@angular/animations';
 import { UserInterfaceService } from '../../services/user-interface.service';
 import { ModalController } from '@ionic/angular';
+import { Entity } from '../../models/entity.model';
 
 @Component({
   selector: 'app-content-viewer',
@@ -57,8 +58,7 @@ import { ModalController } from '@ionic/angular';
 })
 export class ContentViewerComponent {
   @Input() modalController: ModalController;
-  @Input() id: string;
-  @Input() title: string;
+  @Input() entity: Entity;
 
   constructor(public ui: UserInterfaceService) {}
 }

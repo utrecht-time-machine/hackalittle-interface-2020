@@ -1,10 +1,9 @@
 <div class="ion-padding information-panel"
      [ngClass]="[ui.isMoreInfoShown() ? 'full-screen' : '']">
     <ion-card>
-        <ion-card-header>
-            <!--                <ion-card-subtitle>Destination</ion-card-subtitle>-->
-            <ion-card-title>Oudegracht 187 (EXAMPLE)</ion-card-title>
-        </ion-card-header>
+        <!--        <ion-card-header>-->
+        <!--            <ion-card-title>Oudegracht 187 (EXAMPLE)</ion-card-title>-->
+        <!--        </ion-card-header>-->
         <ion-card-content>
             <p>
                 Current use: Winkel Bebop (furniture)
@@ -12,23 +11,14 @@
                 Creation date: 1590
             </p>
 
-            <div class="images ion-padding-top">
+            <div class="featured-images ion-padding-top" *ngIf="entities.getMostRelevantImages(entity)">
                 <ion-grid>
                     <ion-row>
-                        <ion-col>
-                            <img class="building-image"
-                                 src="https://images4.persgroep.net/rcs/JzwgwUFQwsqAbkdtApdK7qqFW2g/diocontent/148835105/_fitwidth/694/?appId=21791a8992982cd8da851550a453bd7f&quality=0.8"
-                                 alt="Placeholder Image">
-                        </ion-col>
-                        <ion-col>
-                            <img class="building-image"
-                                 src="https://platform-duic.imgix.net/app/uploads/sites/2/2017/01/oudegracht-6-1125x750.jpg?auto=format%2Ccompress&ch=Width%2CDPR%2CSave-Data&dpr=2.63&fit=max&h=470&ixjsv=2.2.4&ixlib=php-1.2.1&q=38"
-                                 alt="Placeholder Image">
-                        </ion-col>
-                        <ion-col>
-                            <img class="building-image"
-                                 src="https://www.delavastgoed.nl/fileadmin/_processed_/f/3/csm_Oudegracht_118_Utrecht_e064337c01.jpg"
-                                 alt="Placeholder Image">
+                        <ion-col
+                                *ngFor="let image of entities.getMostRelevantImages(entity).slice(0, env.amtFeaturedImagesShown)">
+                            <img class="featured-image"
+                                 src="{{env.imageProxyUrl}}?url={{image.url}}&height={{env.featuredImageHeight}}`"
+                                 alt="{{entity.label}} Image">
                         </ion-col>
                     </ion-row>
                 </ion-grid>

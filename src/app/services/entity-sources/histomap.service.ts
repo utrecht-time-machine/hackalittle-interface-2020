@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { SparqlService } from '../sparql.service';
 import { EntitySourceService } from './entity-source.service';
 import { UtilsService } from '../utils.service';
-import { EntitySparqlRes } from '../../models/marker-sparql-res.model';
+import { EntitySparqlRes } from '../../models/entity-sparql-res';
 
 @Injectable({
   providedIn: 'root',

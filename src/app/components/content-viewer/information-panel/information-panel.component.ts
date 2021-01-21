@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
   animate,
   state,
@@ -7,6 +7,9 @@ import {
   trigger,
 } from '@angular/animations';
 import { UserInterfaceService } from '../../../services/user-interface.service';
+import { Entity } from '../../../models/entity.model';
+import { environment } from 'src/environments/environment';
+import { EntityService } from '../../../services/entity.service';
 
 @Component({
   selector: 'app-information-panel',
@@ -14,10 +17,16 @@ import { UserInterfaceService } from '../../../services/user-interface.service';
   styleUrls: ['./information-panel.component.scss'],
 })
 export class InformationPanelComponent implements OnInit {
+  env = environment;
+
   beginkaartExpanded = false;
   beginkaartCollapsedHeight = 100; //px
+  @Input() entity: Entity;
 
-  constructor(public ui: UserInterfaceService) {}
+  constructor(
+    public ui: UserInterfaceService,
+    public entities: EntityService
+  ) {}
 
   ngOnInit() {}
 

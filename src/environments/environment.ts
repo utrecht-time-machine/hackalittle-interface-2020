@@ -35,6 +35,8 @@ export const environment = {
     histomap: 'histomap',
   },
   markerImageHeight: 40,
+  featuredImageHeight: 200,
+  amtFeaturedImagesShown: 5,
 };
 
 /*

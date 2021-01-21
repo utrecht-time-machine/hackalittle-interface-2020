@@ -4,7 +4,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { Feature, FeatureCollection } from 'geojson';
 import { ModalController } from '@ionic/angular';
 import { EntityService } from './entity.service';
-import { Entity } from '../models/marker.model';
+import { Entity } from '../models/entity.model';
 import { EventData, MapboxGeoJSONFeature, MapMouseEvent } from 'mapbox-gl';
 import { ContentViewerComponent } from '../components/content-viewer/content-viewer.component';
 import { BehaviorSubject } from 'rxjs';
@@ -55,7 +55,7 @@ export class MapService {
   }
 
   private async addImageForMarkerId(markerId) {
-    const imageUrl = this.entities.retrieveImageById(markerId);
+    const imageUrl = this.entities.retrieveMarkerImageById(markerId);
     if (!imageUrl) {
       console.log('No image found for marker:', markerId, imageUrl);
     }
@@ -84,18 +84,19 @@ export class MapService {
   }
 
   private async showMarkers() {
-    const markers: Entity[] = await this.getShownMarkers();
+    const entities: Entity[] = await this.getShownMarkers();
 
-    const features: Feature[] = markers.map((marker) => {
+    const features: Feature[] = entities.map((entity) => {
       return {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [(marker.lngLat as any).lng, (marker.lngLat as any).lat],
+          coordinates: [(entity.lngLat as any).lng, (entity.lngLat as any).lat],
         },
         properties: {
-          title: marker.label,
-          id: marker.id,
+          title: entity.label,
+          id: entity.id,
+          entity: entity,
         },
       };
     });
@@ -206,21 +207,19 @@ export class MapService {
   private async onMapMarkerClicked(
     e: MapMouseEvent & { features?: MapboxGeoJSONFeature[] } & EventData
   ) {
-    console.log(e.features);
-    const id = e.features[0].properties.id;
-    if (!id) {
-      console.warn('No ID found for clicked entity.');
+    // console.log(e.features);
+    const entityStr: string = e.features[0]?.properties?.entity;
+    if (!entityStr) {
+      console.warn('Clicked entity was not found.');
       return;
     }
-    const title = e.features[0].properties?.title;
+    const entity: Entity = JSON.parse(entityStr) as Entity;
 
-    console.log(this.modalController);
     const modal = await this.modalController.create({
       component: ContentViewerComponent,
       cssClass: 'full-screen-modal',
       componentProps: {
-        id,
-        title,
+        entity,
         modalController: this.modalController,
       },
     });

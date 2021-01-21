@@ -3,7 +3,7 @@ import { SparqlService } from './sparql.service';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { LngLatLike } from 'mapbox-gl';
-import { Entity, EntityImage } from '../models/marker.model';
+import { Entity, EntityImage } from '../models/entity.model';
 import { UtilsService } from './utils.service';
 import { DocumentatieOrgService } from './entity-sources/documentatie-org.service';
 import { HistomapService } from './entity-sources/histomap.service';
@@ -41,9 +41,38 @@ export class EntityService {
     });
   }
 
-  public retrieveImageById(entityId: string): string {
-    const entityImages: EntityImage[] = this.getById(entityId)?.images;
-    if (!entityImages) {
+  public getMostRelevantImages(entity: Entity): EntityImage[] {
+    // TODO: Fine-tune this rule? Are *ALL* images of kaartsoort 6 good images?
+    return this.getImagesByKaartsoort(entity, 'kaart_6');
+  }
+
+  public getImagesByKaartsoort(
+    entity: Entity,
+    kaartsoort: string
+  ): EntityImage[] {
+    if (!entity.images || entity.images.length === 0) {
+      return [];
+    }
+
+    const entityImages = [];
+    for (const entityImage of entity.images) {
+      if (
+        entityImage.kaartsoort &&
+        entityImage.kaartsoort !==
+          environment.documentatieOntologyIRI + kaartsoort
+      ) {
+        continue;
+      }
+      entityImages.push(entityImage);
+    }
+
+    return entityImages;
+  }
+
+  public retrieveMarkerImageById(entityId: string): string {
+    const entity = this.getById(entityId);
+    const entityImages: EntityImage[] = this.getMostRelevantImages(entity);
+    if (!entityImages || entityImages.length === 0) {
       return environment.placeholderMarkerImage;
     }
 
@@ -52,16 +81,8 @@ export class EntityService {
         return environment.placeholderMarkerImage;
       }
 
-      // const isValidDocumentatieOrgImage =
-      //     markerImage.kaartsoort &&
-      //     markerImage.kaartsoort === `${environment.ontologyIRI}kaart_6`;
-      // if (isValidDocumentatieOrgImage) {
-      //   return environment.proxyUrl + markerImage.url;
-      // }
       if (this.utils.isValidUrl(entityImage.url)) {
         return `${environment.imageProxyUrl}?url=${entityImage.url}&height=${environment.markerImageHeight}`;
-      } else if (entityImage?.url) {
-        return entityImage.url;
       }
     }
 
