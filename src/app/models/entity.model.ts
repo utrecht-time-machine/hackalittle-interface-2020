@@ -15,6 +15,7 @@ export interface Entity {
   };
   objectsoort?: string;
   inception?: Date;
+  description?: { text: string; source: string };
 }
 
 export interface EntityImage {

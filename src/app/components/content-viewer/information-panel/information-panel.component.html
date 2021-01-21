@@ -1,10 +1,15 @@
 <div class="ion-padding information-panel"
      [ngClass]="[ui.isMoreInfoShown() ? 'full-screen' : '']">
+
     <ion-card>
         <!--        <ion-card-header>-->
         <!--            <ion-card-title>Oudegracht 187 (EXAMPLE)</ion-card-title>-->
         <!--        </ion-card-header>-->
         <ion-card-content>
+            <p *ngIf="entity?.description?.text">
+                {{entity.description.text}}
+            </p>
+            <hr *ngIf="entity?.description?.text">
             <p *ngIf="entityRefersToIds()">More information:
                 <span *ngIf="entity.refersToIds.rijksmonumentID" class="ion-padding-end">
                     <a [href]="entity.refersToIds.rijksmonumentID" target="_blank">Rijksmonumentenregister</a>

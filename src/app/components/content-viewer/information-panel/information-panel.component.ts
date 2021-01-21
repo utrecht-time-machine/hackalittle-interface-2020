@@ -13,6 +13,7 @@ import { EntityService } from '../../../services/entity.service';
 import { WikidataService } from '../../../services/wikidata.service';
 import { Lightbox, LightboxConfig } from 'ngx-lightbox';
 import { LightboxImageModel } from '../../../models/lightbox-image.model';
+import { WikipediaService } from '../../../services/wikipedia.service';
 
 @Component({
   selector: 'app-information-panel',
@@ -33,7 +34,8 @@ export class InformationPanelComponent implements OnInit {
     public entities: EntityService,
     public wikidata: WikidataService,
     private lightbox: Lightbox,
-    private lightboxConfig: LightboxConfig
+    private lightboxConfig: LightboxConfig,
+    private wikipedia: WikipediaService
   ) {
     lightboxConfig.showZoom = true;
   }
@@ -77,10 +79,23 @@ export class InformationPanelComponent implements OnInit {
 
   private async enrichEntity() {
     await this.reconcileWithWikidata();
-    await this.wikidata.enrichEntityUsingWikidata(
-      this.entity,
-      this.entity.refersToIds.wikidataID
-    );
+    if (this.entity.refersToIds.wikidataID) {
+      await this.wikidata.enrichEntityUsingWikidata(
+        this.entity,
+        this.entity.refersToIds.wikidataID
+      );
+
+      const wikipediaExtract = await this.wikipedia.getExtractByWikidataId(
+        this.entity.refersToIds.wikidataID
+      );
+      if (wikipediaExtract) {
+        this.entity.description = {
+          text: wikipediaExtract,
+          source: environment.sourceIds.wikipedia,
+        };
+      }
+    }
+
     this.initializeLightbox();
   }
 

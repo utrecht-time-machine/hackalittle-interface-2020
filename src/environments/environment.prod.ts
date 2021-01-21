@@ -33,16 +33,19 @@ export const environment = {
   rijksmonumentURI:
     'https://monumentenregister.cultureelerfgoed.nl/monumenten/',
   udsOntologyIRI: 'http://documentatie.org/id/kaartsoort/',
+  wikidataIRI: 'http://www.wikidata.org/entity/',
   udsObjectNrUrl:
     'http://www.documentatie.org/Object/Object-opvragen-OBJ.asp?Objectnummer=',
   sourceIds: {
     uds: 'Documentatie.org',
     histomap: 'Histomap',
     wikidata: 'Wikidata',
+    wikipedia: 'Wikipedia',
   },
   markerImageHeight: 40,
   featuredImageHeight: 200,
   amtFeaturedImagesShown: 5,
+  amtSentencesWikipediaExtract: 4,
 };
 
 /*
