@@ -85,18 +85,24 @@ export class InformationPanelComponent implements OnInit {
         this.entity.refersToIds.wikidataID
       );
 
-      const wikipediaExtract = await this.wikipedia.getExtractByWikidataId(
-        this.entity.refersToIds.wikidataID
-      );
-      if (wikipediaExtract) {
-        this.entity.description = {
-          text: wikipediaExtract,
-          source: environment.sourceIds.wikipedia,
-        };
+      if (!this.entity?.description?.text) {
+        this.loadWikipediaExtract();
       }
     }
 
     this.initializeLightbox();
+  }
+
+  private async loadWikipediaExtract() {
+    const wikipediaExtract = await this.wikipedia.getExtractByWikidataId(
+      this.entity.refersToIds.wikidataID
+    );
+    if (wikipediaExtract) {
+      this.entity.description = {
+        text: wikipediaExtract,
+        source: environment.sourceIds.wikipedia,
+      };
+    }
   }
 
   private async reconcileWithWikidata() {
