@@ -72,13 +72,18 @@ export class EntityService {
   public retrieveMarkerImageById(entityId: string): string {
     const entity = this.getById(entityId);
     const entityImages: EntityImage[] = this.getMostRelevantImages(entity);
+
+    const placeHolderImage =
+      entity.source === environment.sourceIds.documentatieOrg
+        ? environment.documentatieMarkerImage
+        : environment.placeholderMarkerImage;
     if (!entityImages || entityImages.length === 0) {
-      return environment.placeholderMarkerImage;
+      return placeHolderImage;
     }
 
     for (const entityImage of entityImages) {
       if (entityImage.url === environment.placeholderMarkerImage) {
-        return environment.placeholderMarkerImage;
+        return placeHolderImage;
       }
 
       if (this.utils.isValidUrl(entityImage.url)) {
