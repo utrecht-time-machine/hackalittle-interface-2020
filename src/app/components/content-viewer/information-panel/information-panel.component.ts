@@ -53,7 +53,7 @@ export class InformationPanelComponent implements OnInit {
       0,
       environment.amtFeaturedImagesShown
     )) {
-      const src = image.url;
+      const src = `${environment.proxyUrl}?url=${image.url}`;
       const caption = 'Retrieved from ' + image.source;
       const thumb = `${environment.imageProxyUrl}?url=${image.url}&height=${environment.featuredImageHeight}`;
       const lightboxImage: LightboxImageModel = {
@@ -67,7 +67,7 @@ export class InformationPanelComponent implements OnInit {
   }
 
   public onOpenLightboxImage(index: number): void {
-    console.log('Opening lightbox image', index);
+    // console.log('Opening lightbox image', index);
     this.lightbox.open(this.lightboxImages, index);
   }
 
