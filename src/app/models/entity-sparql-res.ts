@@ -6,4 +6,8 @@ export type EntitySparqlRes = {
   fileURL: string;
   source: string;
   kaartsoort?: string;
+  rijksmonumentID?: string;
+  udsObjectNr?: string;
+  objectsoort?: string;
+  bagID?: string;
 }[];

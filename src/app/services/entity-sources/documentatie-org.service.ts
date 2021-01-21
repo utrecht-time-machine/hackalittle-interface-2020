@@ -19,10 +19,14 @@ export class DocumentatieOrgService extends EntitySourceService {
 
   protected async retrieveRawEntities(): Promise<EntitySparqlRes> {
     const entitiesQuery = `
-        SELECT ?sub ?lat ?long ?label ?fileURL ?kaartsoort WHERE {
+        SELECT ?sub ?lat ?long ?label ?fileURL ?kaartsoort ?rijksmonumentID ?udsObjectNr ?objectsoort ?bagID  WHERE {
         ?sub dct:spatial ?obj .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
         ?obj <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long .
+        OPTIONAL { ?sub <http://www.wikidata.org/entity/P359> ?rijksmonumentID . }
+        OPTIONAL { ?sub <http://documentatie.org/def/Objectnr> ?udsObjectNr . }
+        OPTIONAL { ?sub <http://documentatie.org/def/objectsoort> ?objectsoort . }
+        OPTIONAL { ?sub <http://www.wikidata.org/entity/P5208> ?bagID . }
         ?sub <http://purl.org/dc/terms/subject> ?subject .
         ?subject <http://www.w3.org/2000/01/rdf-schema#label> ?label .
  
@@ -37,7 +41,7 @@ export class DocumentatieOrgService extends EntitySourceService {
     );
 
     rawEntities = rawEntities.map((rawEntity) => {
-      rawEntity.source = environment.sourceIds.documentatieOrg;
+      rawEntity.source = environment.sourceIds.uds;
       return rawEntity;
     });
     return rawEntities;

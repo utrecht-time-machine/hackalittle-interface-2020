@@ -21,7 +21,7 @@ export class EntityService {
     private utils: UtilsService
   ) {
     this.sourceIds = [
-      environment.sourceIds.documentatieOrg,
+      environment.sourceIds.uds,
       environment.sourceIds.histomap,
     ];
     this.loadInitial();
@@ -58,8 +58,7 @@ export class EntityService {
     for (const entityImage of entity.images) {
       if (
         entityImage.kaartsoort &&
-        entityImage.kaartsoort !==
-          environment.documentatieOntologyIRI + kaartsoort
+        entityImage.kaartsoort !== environment.udsOntologyIRI + kaartsoort
       ) {
         continue;
       }
@@ -74,8 +73,8 @@ export class EntityService {
     const entityImages: EntityImage[] = this.getMostRelevantImages(entity);
 
     const placeHolderImage =
-      entity.source === environment.sourceIds.documentatieOrg
-        ? environment.documentatieMarkerImage
+      entity.source === environment.sourceIds.uds
+        ? environment.udsMarkerImage
         : environment.placeholderMarkerImage;
     if (!entityImages || entityImages.length === 0) {
       return placeHolderImage;

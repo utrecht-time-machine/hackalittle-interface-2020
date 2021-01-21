@@ -10,6 +10,7 @@ import { UserInterfaceService } from '../../../services/user-interface.service';
 import { Entity } from '../../../models/entity.model';
 import { environment } from 'src/environments/environment';
 import { EntityService } from '../../../services/entity.service';
+import { WikidataService } from '../../../services/wikidata.service';
 
 @Component({
   selector: 'app-information-panel',
@@ -25,10 +26,35 @@ export class InformationPanelComponent implements OnInit {
 
   constructor(
     public ui: UserInterfaceService,
-    public entities: EntityService
+    public entities: EntityService,
+    public wikidata: WikidataService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.enrichEntity();
+  }
+
+  private async enrichEntity() {
+    await this.reconcileWithWikidata();
+    await this.wikidata.enrichEntityUsingWikidata(
+      this.entity,
+      this.entity.refersToIds.wikidataID
+    );
+  }
+
+  private async reconcileWithWikidata() {
+    const alreadyReconciled = this.entity.refersToIds.wikidataID;
+    if (alreadyReconciled) {
+      return;
+    }
+
+    const rijksmonumentID = this.entity.refersToIds.rijksmonumentID;
+    if (rijksmonumentID) {
+      this.entity.refersToIds.wikidataID = await this.wikidata.getWikidataIdFromRijksmonumentId(
+        rijksmonumentID
+      );
+    }
+  }
 
   @ViewChild('beginkaart') beginkaartElRef: ElementRef;
 

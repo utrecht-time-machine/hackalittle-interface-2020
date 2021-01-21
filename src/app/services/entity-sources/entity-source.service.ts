@@ -40,6 +40,11 @@ export abstract class EntitySourceService {
           label: rawEntity.label,
           id: rawEntity.sub,
           source: rawEntity.source,
+          refersToIds: {
+            bagID: rawEntity?.bagID,
+            rijksmonumentID: rawEntity?.rijksmonumentID,
+            udsObjectNr: rawEntity?.udsObjectNr,
+          },
           images: [],
         };
       }

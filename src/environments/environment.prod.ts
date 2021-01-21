@@ -17,7 +17,7 @@ export const environment = {
       'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Histomap/services/Histomap/sparql',
   },
   placeholderMarkerImage: '/assets/img/map-pin.png',
-  documentatieMarkerImage: '/assets/img/documentatie-pin.png',
+  udsMarkerImage: '/assets/img/documentatie-pin.png',
   sparqlPrefixes: {
     hua: `PREFIX dc: <http://purl.org/dc/elements/1.1/>
     PREFIX edm: <http://www.europeana.eu/schemas/edm/>
@@ -25,9 +25,11 @@ export const environment = {
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>`,
   },
-  documentatieOntologyIRI: 'http://documentatie.org/id/kaartsoort/',
+  udsOntologyIRI: 'http://documentatie.org/id/kaartsoort/',
+  udsObjectNrUrl:
+    'http://www.documentatie.org/Object/Object-opvragen-OBJ.asp?Objectnummer=',
   sourceIds: {
-    documentatieOrg: 'documentatie.org',
+    uds: 'documentatie.org',
     histomap: 'histomap',
   },
   markerImageHeight: 40,

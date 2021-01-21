@@ -8,7 +8,22 @@
             <p>
                 [EXAMPLE] Current use: Winkel Bebop (furniture)
                 <br/>
-                [EXAMPLE] Creation date: 1590
+            </p>
+
+            <p *ngIf="entity.refersToIds.rijksmonumentID">
+                <a [href]="entity.refersToIds.rijksmonumentID" target="_blank">Rijksmonumentenregister</a>
+            </p>
+
+            <p *ngIf="entity.refersToIds.bagID">
+                <a [href]="entity.refersToIds.bagID" target="_blank">BAG</a>
+            </p>
+
+            <p *ngIf="entity.refersToIds.udsObjectNr">
+                <a [href]="env.udsObjectNrUrl + entity.refersToIds.udsObjectNr" target="_blank">Documentatie.org</a>
+            </p>
+
+            <p *ngIf="entity.refersToIds.wikidataID">
+                <a [href]="entity.refersToIds.wikidataID" target="_blank">Wikidata</a>
             </p>
 
             <div class="featured-images ion-padding-top" *ngIf="entities.getMostRelevantImages(entity)">
